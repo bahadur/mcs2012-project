@@ -74,5 +74,10 @@ class Project extends CI_Controller {
             echo 0;
         }
     }
+    
+    
+    public function try_this(){
+        echo "Hello";
+    }
 
 }
