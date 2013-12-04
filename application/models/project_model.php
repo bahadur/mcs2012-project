@@ -72,5 +72,10 @@ project.dueDate", false);
         }
         return $data;
     }
+    
+    public function getProjectsDetail(){
+        $this->db->select("*");
+        $this->db->from("project");
+    }
 
 }
