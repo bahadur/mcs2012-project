@@ -1,0 +1,760 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"js",
+				"json_encode"
+			],
+			[
+				"margin",
+				"margin-bottom"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"margi",
+				"margin-bottom"
+			],
+			[
+				"last_tra",
+				"last_trade_time"
+			],
+			[
+				"bac",
+				"background"
+			],
+			[
+				"padd",
+				"padding-top"
+			],
+			[
+				"font",
+				"font-family"
+			],
+			[
+				"max",
+				"max-height"
+			],
+			[
+				"last",
+				"last_query"
+			],
+			[
+				"portfol",
+				"portfolio_id"
+			],
+			[
+				"invest",
+				"invest_loss"
+			],
+			[
+				"portfoli",
+				"Portfolio_model"
+			],
+			[
+				"mar",
+				"margin"
+			],
+			[
+				"ma",
+				"margin"
+			],
+			[
+				"wid",
+				"width"
+			],
+			[
+				"slug",
+				"this_slug"
+			],
+			[
+				"sr",
+				"script	Tag"
+			],
+			[
+				"text",
+				"text-align"
+			],
+			[
+				"san",
+				"sans-serif"
+			],
+			[
+				"marg",
+				"margin"
+			],
+			[
+				"sans",
+				"sans-serif"
+			],
+			[
+				"al",
+				"alt	Attr"
+			],
+			[
+				"ar",
+				"article	Tag"
+			],
+			[
+				"exp",
+				"explode"
+			],
+			[
+				"pare",
+				"parent_id"
+			],
+			[
+				"row",
+				"rowid"
+			],
+			[
+				"bo",
+				"bolder"
+			],
+			[
+				"list",
+				"list-style-type"
+			],
+			[
+				"las",
+				"last_query"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "application/controllers/account.php",
+			"settings":
+			{
+				"buffer_size": 2832,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "application/controllers/home.php",
+			"settings":
+			{
+				"buffer_size": 1030,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "application/models/accounts_model.php",
+			"settings":
+			{
+				"buffer_size": 13013,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/D/wamp/www/ace/index.html",
+			"settings":
+			{
+				"buffer_size": 60783,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/D/wamp/www/ace/tables.html",
+			"settings":
+			{
+				"buffer_size": 88330,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/D/wamp/www/ace/assets/css/font-awesome.min.css",
+			"settings":
+			{
+				"buffer_size": 22084,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+			[
+				"Package Control: ",
+				"Package Control: Add Repository"
+			],
+			[
+				"Package Control: ins",
+				"Package Control: Install Package"
+			],
+			[
+				"svn",
+				"Set Syntax: Java"
+			]
+		],
+		"width": 416.0
+	},
+	"console":
+	{
+		"height": 209.0,
+		"history":
+		[
+			"svn",
+			"SVN",
+			"svn",
+			"http://sublime.wbond.net/testing/packages.json",
+			"clear",
+			"import urllib.request,os; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); open(os.path.join(ipp, pf), 'wb').write(urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ','%20')).read())"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/D/wamp/www/ace/assets/css/ace.min.css",
+		"/D/wamp/www/ace/index.html",
+		"/D/wamp/www/new-mcs-project/application/views/layout/menu.php",
+		"/D/wamp/www/new-mcs-project/application/views/layout/template.php",
+		"/D/wamp/www/new-mcs-project/application/controllers/home.php",
+		"/D/wamp/www/new-mcs-project/application/controllers/account.php",
+		"/D/wamp/www/new-mcs-project/application/views/dashboard/manager.php",
+		"/D/wamp/www/new-mcs-project/application/models/accounts_model.php",
+		"/D/wamp/www/new-mcs-project/application/views/dashboard/administrator.php",
+		"/D/wamp/www/new-mcs-project/application/views/dashboard/member.php",
+		"/D/wamp/www/new-mcs-project/application/views/dashboard.php",
+		"/D/wamp/www/mcs-project_Old/application/views/layout/menu.php",
+		"/D/wamp/www/mcs-project/application/views/layout/menu.php",
+		"/D/wamp/www/mcs-project/application/views/layout/template.php",
+		"/D/wamp/www/mcs-project/application/views/layout/footer.php",
+		"/D/wamp/www/mcs-project/assets/css/fonts.google.css",
+		"/D/wamp/www/mcs-project/application/views/layout/header.php",
+		"/D/wamp/www/mcs-project/application/controllers/account.php",
+		"/D/wamp/www/mcs-project/application/config/config.php",
+		"/D/wamp/www/mcs-project/application/controllers/home.php",
+		"/D/wamp/www/mcs-project/application/views/layout/breadcrumb.php",
+		"/D/wamp/www/mcs-project/application/views/login.php",
+		"/C/Users/Administrator/Desktop/khi_responsive/canvas.html",
+		"/D/wamp/www/ace/login.html",
+		"/D/wamp/www/charisma-master/index.html",
+		"/D/wamp/www/mcs-project/css/bootstrap-cerulean.css",
+		"/D/wamp/www/mcs-project/css/charisma-app.css",
+		"/D/wamp/www/mcs-project/css/bootstrap-responsive.css",
+		"/D/wamp/www/charisma-master/js/jquery.flot.pie.min.js",
+		"/D/wamp/www/mcs-project/application/views/dashboard.php",
+		"/D/wamp/www/mcs-project/css/style.css",
+		"//192.168.0.195/web/guide/stockspak/html/admin/process_announcements.php",
+		"/D/wamp/www/mcs-project/js/charisma.js",
+		"/D/wamp/www/mcs-project/css/bootstrap.css",
+		"/D/wamp/www/charisma-master/flot-flot-836c9f1/jquery.flot.pie.js",
+		"//192.168.0.195/web/guide/khistocks/application/views/pages/br_index.php",
+		"//192.168.0.195/web/guide/khistocks/application/models/home_model.php",
+		"//192.168.0.195/web/guide/khistocks/application/controllers/br_indices.php",
+		"//192.168.0.195/web/guide/khistocks/application/views/pages/kse_index.php",
+		"//192.168.0.195/web/guide/khistocks/application/controllers/kse_indices.php",
+		"//192.168.0.195/web/guide/khistocks/application/config/routes.php",
+		"//192.168.0.195/web/guide/khistocks/application/models/company_model.php",
+		"//192.168.0.195/web/guide/khistocks/application/controllers/company.php",
+		"//192.168.0.195/web/guide/khistocks/application/views/pages/company_detail.php",
+		"//192.168.0.195/web/guide/khistocks/application/views/pages/br_index_live.php",
+		"//192.168.0.195/web/guide/khistocks/application/views/pages/annual_reports.php",
+		"//192.168.0.195/web/guide/khistocks/application/views/pages/company_annual_reports.php",
+		"//192.168.0.195/web/guide/khistocks/application/controllers/annual_reports.php",
+		"//192.168.0.195/web/guide/khistocks/application/models/announcement_model.php",
+		"/D/wamp/www/mcs-project/application/models/contact_model.php",
+		"//192.168.0.195/web/guide/khistocks/.htaccess",
+		"//192.168.0.195/web/guide/khistocks/application/.htaccess",
+		"//192.168.0.195/web/guide/khistocks/application/controllers/admin.php",
+		"/D/wamp/www/mcs-project/application/config/autoload.php",
+		"//192.168.0.195/web/guide/khistocks/application/controllers/home.php",
+		"/D/wamp/www/mcs-project/html/index.php",
+		"/D/wamp/www/mcs-project/application/controllers/welcome.php",
+		"/D/wamp/www/mcs-project/html/prjects.php",
+		"/D/wamp/www/mcs-project/.htaccess",
+		"//192.168.0.195/web/guide/khistocks/application/views/template/template.php",
+		"//192.168.0.195/web/guide/khistocks/application/libraries/Zarpio.php",
+		"//192.168.0.195/web/guide/khistocks/application/models/admin/companies_model.php",
+		"//192.168.0.195/web/guide/khistocks/application/models/admin/news_model.php",
+		"//192.168.0.195/web/guide/khistocks/application/models/financial_model.php",
+		"//192.168.0.195/web/guide/khistocks/application/config/config.php",
+		"//192.168.0.195/web/guide/khistocks/application/config/autoload.php",
+		"/D/wamp/www/mcs-project/application/config/routes.php",
+		"/D/wamp/www/mcs-project/application/controllers/login.php",
+		"//192.168.0.195/web/guide/khistocks/application/controllers/ajax.php",
+		"/D/wamp/www/mcs-project/projects.json",
+		"/D/wamp/www/mcs-project/index.php",
+		"/D/wamp/www/mcs-project/bootstrap-3.0.0/examples/navbar/navbar.css",
+		"/D/wamp/www/mcs-project/bootstrap/css-old/bootstrap.css",
+		"/D/wamp/www/mcs-project/bootstrap/css/bootstrap.css",
+		"/D/wamp/www/mcs-project/bootstrap-3.0.0/examples/navbar/index.html",
+		"/D/wamp/www/mcs-project/bootstrap/css/bootstrap-responsive.css",
+		"/D/wamp/www/mcs-project/bootstrap-3.0.0/examples/navbar-fixed-top/index.html",
+		"/D/wamp/www/mcs-project/bootstrap-3.0.0/examples/navbar-fixed-top/navbar-fixed-top.css",
+		"/D/wamp/www/mcs-project/prjects.php",
+		"/D/wamp/www/mcs-project/prjects.json",
+		"//192.168.0.195/web/guide/stockspak/html/brindex/process_bonus_dividend_price.php",
+		"//192.168.0.195/web/guide/stockspak/html/brindex/quarterly_bonus_dividend_calculation.php",
+		"/D/wamp/www/mcs-project/style.css",
+		"/D/wamp/www/erd/main/index.php",
+		"/D/wamp/www/erd/_config.php",
+		"/D/wamp/www/erd/main/inc/_init.php",
+		"/D/wamp/www/erd/index.php",
+		"/C/Users/Administrator/Desktop/flot-flot-3951e0c/examples/ajax/index.html",
+		"/C/Users/Administrator/Desktop/flot-flot-3951e0c/examples/realtime/index.html",
+		"//192.168.0.195/web/guide/khistocks/application/views/pages/quote.php",
+		"//192.168.0.195/web/guide/khistocks/css/style.css",
+		"//192.168.0.195/web/guide/khistocks/application/controllers/company_archive.php",
+		"/C/Users/Administrator/Desktop/Web-Ticker-master/webticker.jquery.json",
+		"//192.168.0.195/web/khih/khi.html",
+		"//192.168.0.195/web/guide/stockspak/html/admin/annualreports/processfiles/annual_report_processing.php",
+		"//192.168.0.195/web/guide/khistocks/application/models/main_model.php",
+		"//192.168.0.195/web/guide/khistocks/application/models/kse_model.php",
+		"//192.168.0.195/web/guide/khistocks/application/controllers/kse_movements.php",
+		"//192.168.0.195/web/guide/khistocks/application/views/pages/financial_highlights.php",
+		"//192.168.0.195/web/guide/khistocks/a1476-2010.html",
+		"//192.168.0.195/web/guide/khistocks/application/controllers/financial_highlights.php",
+		"//192.168.0.195/web/guide/stockspak/html/admin/annualreports/processfiles/a0166-2010.html",
+		"/C/Users/Administrator/Desktop/MainActivity.java",
+		"//192.168.0.195/web/guide/khistocks/application/views/template/header.php",
+		"//192.168.0.195/web/guide/khistocks/application/views/template/banner.php",
+		"//192.168.0.195/web/guide/khistocks/application/views/template/menu.php",
+		"//192.168.0.195/web/guide/khistocks/application/views/template/right_section.php",
+		"/C/Users/Administrator/Desktop/tete/index.html",
+		"/C/Users/Administrator/Desktop/tete/style.css",
+		"//192.168.0.195/web/guide/khistocks/application/views/template/slider.php",
+		"//192.168.0.195/web/guide/khistocks/application/controllers/market.php",
+		"//192.168.0.195/web/guide/khistocks/application/controllers/market_live.php",
+		"/D/wamp/www/game/index.html",
+		"/D/wamp/www/game/zenvaplatformer1_basic/index.html",
+		"/C/Users/Administrator/Desktop/khi_responsive/khi/assets/Project_Previewer.html",
+		"/C/Users/Administrator/Desktop/khi_responsive/khi/assets/page1.html",
+		"/C/Users/Administrator/Desktop/styles.css",
+		"/C/Users/Administrator/Google Drive/responsiveHTML/css/reset.css",
+		"/C/Users/Administrator/Downloads/google_service (4).js",
+		"//192.168.0.195/web/guide/khistocks/application/models/portfolio_model.php",
+		"//192.168.0.195/web/guide/khistocks/application/controllers/portfolio.php",
+		"//192.168.0.195/web/guide/khistocks/js/jqscript.js",
+		"//192.168.0.195/web/guide/khistocks/css/reset.css",
+		"//192.168.0.195/web/guide/khistocks/css/grid.css",
+		"/D/wamp/www/wordpress/wp-content/themes/twentytwelve/header.php",
+		"/D/wamp/www/wordpress/wp-content/themes/customizr/style.css",
+		"/D/wamp/www/wordpress/wp-content/themes/twentytwelve/index.php",
+		"/D/wamp/www/wordpress/wp-content/themes/customizr/index.php"
+	],
+	"find":
+	{
+		"height": 44.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"icon-leaf",
+			".css",
+			"googl",
+			"google",
+			"assets",
+			"easy-pie-chart",
+			"percentage",
+			"easy-pie-chart",
+			"assets/js",
+			"assets/css",
+			"google",
+			"js/",
+			"<link",
+			"css/",
+			"top-nav",
+			"top-nav.nav-collapse,.sidebar-nav.nav-collapse",
+			"js/",
+			"css/",
+			"realtimechart",
+			".row ",
+			"row",
+			"min-width",
+			"min-width:",
+			"\"span",
+			"span",
+			"-fluid",
+			"row-fluid",
+			"-fluid",
+			"blank",
+			"announcements",
+			"Box area",
+			"project",
+			"Graph",
+			"search",
+			"fullname",
+			"form",
+			"id",
+			"field",
+			"grid",
+			"insert",
+			"last_query",
+			"send",
+			"updateStatus",
+			"navbar-inverse",
+			"th",
+			"navbar",
+			"navbar-inverse",
+			"navbar-",
+			"d",
+			"chartdta",
+			"(rate_status",
+			"count(rate_status)",
+			"75px",
+			"top-bar",
+			"ticker",
+			"top-bar",
+			"stick",
+			"menu_sticky-anchor",
+			"button",
+			"checkLength",
+			"symbols",
+			"date",
+			"checkRange",
+			"company_info",
+			"open-form-dialog-buy",
+			"rs_port",
+			"porfolio_id",
+			"function createBox",
+			"createBox",
+			"id",
+			"$invest",
+			"insert",
+			"session",
+			"amount",
+			"_add_sector",
+			"btnInvest",
+			"buysell",
+			"	\n",
+			"gp_buttons",
+			"report",
+			"Settlements",
+			"settlements",
+			"Settlements",
+			"settlements",
+			"Buy",
+			"buy",
+			"buysell",
+			"buy",
+			"gp_buttons",
+			"Buy",
+			"ticker",
+			"_ticker",
+			"_profile",
+			"log",
+			"checkRange",
+			"checkLength",
+			"add",
+			" style=\"display:none\"",
+			"'+base_url+'images/'+ticker[i].updown+'",
+			"MCB",
+			"kcode3",
+			"\"kcode3\">",
+			"class=\"kcode\">",
+			" <div",
+			"<div",
+			",",
+			"A",
+			"ABL\nABOT\nACPL\nAGIL\nAHCL\nAICL\nAKBL\n",
+			"ABL",
+			"ABL\nABOT\nACPL\nAGIL\nAHCL\nAICL\nAKBL\nANL\nAPL\nARM\nATRL\nBAFL\nBAHL\nBATA\nBIPL\nBOK\nBOP\nCHCC\nCOLG\nCPL\nDAWH\nDGKC\nEFOODS\nEFUG\nEFUL\nENGRO\nFABL\nFATIMA\nFCCL\nFFBL\nFFC\nFML\nGHGL\nGLAXO\nGRAYS\nHBL\nHMB\nHUBC\nHUMNL\nICI\nIGIIL\nINDU\nINIL\nISL\nJDWS\nJGICL\nJSBL\nJSCL\nJSGF\nJVDC\nKAPCO\nKESC\nKOHE\nLOTCHEM\nLPCL\nLUCK\nMARI\nMCB\nMEBL\nMTL\nMUREB\nNATF\nNBP\nNCL\nNCPL\nNESTLE\nNETSOL\nNIB\nNML\nNPL\nNRL\nOGDC\nPACE\nPAKRI\nPAKT\nPCAL\nPGF\nPICT\nPKGS\nPOL\nPPL\nPSEL\nPSMC\nPSO\nPTC\nRMPL\nSCBPL\nSEPL\nSHEL\nSHFA\nSIEM\nSNBL\nSNGP\nSSGC\nTHALL\nTRG\nTRIPF\nUBL\nULEVER\nTPL\n",
+			"getBrCompanyLiveRates",
+			"$i",
+			"0",
+			"standard_arrow_up",
+			"standard_arrow_down",
+			"t_arrow_up.gif",
+			"bxslider",
+			"</li>",
+			">",
+			"console",
+			"ticker",
+			"stick",
+			"top-line",
+			"headbg",
+			"menu",
+			"logo",
+			"home",
+			"homea"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 5,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "application/controllers/account.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2832,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 84.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "application/controllers/home.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1030,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 47.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "application/models/accounts_model.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 13013,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 5320.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/D/wamp/www/ace/index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 60783,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1325,
+								1325
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1087.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/D/wamp/www/ace/tables.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 88330,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1373,
+								1373
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1143.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/D/wamp/www/ace/assets/css/font-awesome.min.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 22084,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								11227,
+								11230
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.tmLanguage"
+						},
+						"translation.x": 13.0,
+						"translation.y": 3755.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 36.0
+	},
+	"input":
+	{
+		"height": 43.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"project": "mcs2012.sublime-project",
+	"replace":
+	{
+		"height": 68.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 255.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
