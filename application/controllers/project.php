@@ -31,7 +31,7 @@ class Project extends CI_Controller {
         $data['menu'] = $this->accounts_model->loadMenu();
         $data['project_categories'] = $this->project_model->getCategories();
         $data['projects_detail'] = $this->project_model->getProjectsDetail();
-
+        
         $this->load->view("layout/template", $data);
     }
 

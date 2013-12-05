@@ -74,8 +74,28 @@ project.dueDate", false);
     }
     
     public function getProjectsDetail(){
-        $this->db->select("*");
+        $this->db->select("project_category.category, count(project.categoryid) cat_count", false);
         $this->db->from("project");
+        $this->db->join("project_category", "project.categoryid = project_category.projectCategoryid","RIGHT");
+        $this->db->group_by("project_category.category");
+        $rs1 = $this->db->get()->result();
+        $total = 0;
+        foreach($rs1 as $val){
+            $total += $val->cat_count;
+        }
+        
+        
+        $this->db->select("count(*) overdue", false);
+        $this->db->from("project");
+        $this->db->where("dueDate < ",date("Y-m-d"));
+        $rs2 = $this->db->get()->result();
+        
+        $data = array("prg_cat" => $rs1,
+                    "total" => $total,
+                     "overdues" =>$rs2[0]->overdue
+            );
+        return $data;
+        
     }
 
 }

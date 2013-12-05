@@ -13,21 +13,25 @@
 
                     <div class="inforbox-container">
                         <div class="infobox infobox-green">
-                            <div class="infobox-progress">
-                                
+                            <div class="infobox-icon">
+                                <i class=" icon-eye-open"></i>
                             </div>
                             <div class="infobox-data">
-                                <span class="infobox-data-number">
-                                    3
+                                <span  class="infobox-data-number">
+                                    <?php echo $projects_detail["total"] ?>
                                 </span>
                                 <div class="infobox-content">Projects</div>
                             </div>
                         </div>
 
                         <div class="infobox infobox-red">
+                            <div class="infobox-icon">
+                                <i class=" icon-eye-close"></i>
+                            </div>
                             <div class="infobox-data">
+                                
                                 <span class="infobox-data-number">
-                                    0
+                                    <?php echo $projects_detail["overdues"] ?>
                                 </span>
                                 <div class="infobox-content">Over Dues</div>
                             </div>
@@ -39,30 +43,17 @@
         <div class="hr  hr-dotted"></div>
         <div class="row-fluid">
             <div class="span10 center">
+                <?php foreach($projects_detail["prg_cat"] as $cat_val){ ?>
                 <div class="infobox infobox-red">
-                            <div class="infobox-data">
-                                <span class="infobox-data-number">
-                                    0
-                                </span>
-                                <div class="infobox-content">Current</div>
-                            </div>
-                        </div>
-                <div class="infobox infobox-red">
-                            <div class="infobox-data">
-                                <span class="infobox-data-number">
-                                    0
-                                </span>
-                                <div class="infobox-content">On Hold</div>
-                            </div>
-                        </div>
-                <div class="infobox infobox-red">
-                            <div class="infobox-data">
-                                <span class="infobox-data-number">
-                                    0
-                                </span>
-                                <div class="infobox-content">With Client</div>
-                            </div>
-                        </div>
+                    <div class="infobox-data">
+                        <span class="infobox-data-number">
+                            <?php echo $cat_val->cat_count?>
+                        </span>
+                        <div class="infobox-content"><?php echo $cat_val->category?></div>
+                    </div>
+                </div>
+                
+                <?php } ?>
             </div>
         </div>
         <div class="row-fluid">
@@ -125,6 +116,6 @@
     </div>
 </div>
 <script>
- 
+
 </script>
 
