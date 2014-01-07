@@ -18,6 +18,7 @@
                 <thead>
                     <tr>
                         <th>Name</th>
+                        <th>Designation</th>
                         <th>Company Name</th>
                         <th>Email</th>
                         <th>Date Create</th>
@@ -29,6 +30,7 @@
                 <tfoot>
                     <tr>
                         <th>Name</th>
+                        <th>Designation</th>
                         <th>Company Name</th>
                         <th>Email</th>
                         <th>Date Create</th>
