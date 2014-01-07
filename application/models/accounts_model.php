@@ -104,24 +104,18 @@ class Accounts_model extends CI_Model {
     public function getContacts() {
 
 
-        $this->db->select("contact.contactid, CONCAT(contact.firstName, ' ', contact.lastName) as name ,company.name as companyName, contact.email, createDate, activated", false);
+        $this->db->select("contact.contactid, CONCAT(contact.firstName, ' ', contact.lastName) as name ,contacttype.type, company.name as companyName, contact.email, createDate, activated", false);
         $this->db->from("contact");
-
         $this->db->join("company", "contact.companyid = company.companyid");
-
-
-
-
-
-
-
+        $this->db->join("contacttype", "contact.contactType = contacttype.contactTypeid");
 
         $rs = $this->db->get()->result();
-
+        
         $dataArray = array();
         foreach ($rs as $rows) {
 
             $name = "<a href='" . base_url() . "account/profile/" . md5($rows->contactid) . "'>" . $rows->name . "</a>";
+            $designation = $rows->type;
             $companyName = $rows->companyName;
             $email = $rows->email;
             $dateCreate = $rows->createDate;
@@ -129,7 +123,7 @@ class Accounts_model extends CI_Model {
 
 
 
-            $dataArray[] = array($name, $companyName, $email, $dateCreate, $activated);
+            $dataArray[] = array($name,  $designation, $companyName, $email, $dateCreate, $activated);
         }
 
         return array("aaData" => $dataArray);
