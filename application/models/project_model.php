@@ -9,14 +9,20 @@ class Project_model extends CI_Model {
     public function getAllProjects($cat = "") {
 
         $this->db->select("project.`name` as 'projectName' ,priority.priority,project_category.category, CONCAT(contact.firstName,' ',contact.lastName) as 'manager',
-project.dateStart,
-project.dueDate", false);
+date_format(project.dateStart, '%b %D, %Y') dateStart,
+date_format(project.dueDate, '%b %D, %Y') dueDate, TIMEDIFF(project.dueDate, NOW()) dueDateFormated", false);
         $this->db->from("project");
         $this->db->join('contact', 'contact.contactid = project.managerid');
         $this->db->join('priority', 'priority.priorityid = project.priority');
         $this->db->join('project_category', 'project_category.projectCategoryid = project.categoryid');
         if(!empty($cat)){
-            $this->db->where("project.categoryid", $cat);
+            if($cat == "overDues"){
+                $this->db->where("dueDate < ",date("Y-m-d"));
+                $this->db->where("categoryid != ",3);
+                
+            }else {
+                $this->db->where("project.categoryid", $cat);
+            }
         }
 
 
@@ -27,17 +33,56 @@ project.dueDate", false);
         foreach ($rs as $rows) {
 
             $projectName = "<a href='#'>" . $rows->projectName . "</a>";
-            $category = $rows->category;
+            
             $manager = $rows->manager;
-            $priority = $rows->priority;
-            $startDate = $rows->dateStart;
-            $dueDate = $rows->dueDate;
+            
+            switch ($rows->priority){
+                case "Very High":
+                    $priority = '<span class="label label-large label-pink arrowed-right">'.$rows->priority.'</span>';
+                    break;
+                case "High":
+                    $priority = '<span class="label label-large label-gray arrowed-right">'.$rows->priority.'</span>';
+                    break;
+                case "Medium":
+                    $priority = '<span class="label label-purple label-light arrowed-right">'.$rows->priority.'</span>';
+                    break;
+                case "Low":
+                    $priority = '<span class="label label-large label-light arrowed-right">'.$rows->priority.'</span>';
+                    break;
+            }
+            
+            switch($rows->category){
+                case "Completed":
+                    $status = '<span class="label label-info arrowed-in-right arrowed">'.$rows->category.'</span>';
+                    break;
+                case "Running":
+                    $status = '<span class="label label-success arrowed-in-right arrowed">'.$rows->category.'</span>';
+                    break;
+                case "On Hold":
+                    $status = '<span class="label label-warning arrowed-in-right arrowed">'.$rows->category.'</span>';
+                    break;
+                case "Canceled":
+                    $status = '<span class="label label-important arrowed-in-right arrowed">'.$rows->category.'</span>';
+                    break;
+                    
+            }
+            
+            $startDate = '<span class="label  label-large label-info "><i class="fa fa-location-arrow"></i>&nbsp;&nbsp;'.$rows->dateStart.'</span>';
+            if($rows->dueDateFormated < 0 && $rows->category != "Completed"){
+                $overdue = "label-important";
+                $dticon = "<i class='icon-bolt'></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+            } else {
+                $overdue =  "label-info";
+                $dticon = ($rows->category == "Completed")?"<i class='icon-ok'></i>&nbsp;&nbsp;":"<i class='icon-share-alt'></i>&nbsp;&nbsp;";
+            }
+            
+            $dueDate = '<span class="label  label-large  '.$overdue.'" >'.$dticon.$rows->dueDate.'</span>';
 
 
 
 
 
-            $dataArray[] = array($projectName, $manager, $priority, $startDate, $dueDate);
+            $dataArray[] = array($projectName, $manager, $priority,$status, $startDate, $dueDate);
         }
 
         return array("aaData" => $dataArray);
@@ -56,13 +101,41 @@ project.dueDate", false);
     public function getManagers() {
         $this->db->select("*");
         $this->db->from("contact");
+        $this->db->where("contactType",2);
         $rs = $this->db->get()->result();
         foreach ($rs as $value) {
             $data[$value->contactid] = $value->firstName . " " . $value->lastName;
         }
         return $data;
     }
-
+    
+     public function getTeamMembers() {
+        $this->db->select("contact.contactid");
+        $this->db->from("contact");
+        $this->db->join("project_memebers","contact.contactid = project_memebers.contactid");
+        $this->db->join("project","project_memebers.projectid = project.projectid");
+        $this->db->where("contact.contactType", 3);
+        $this->db->or_where_in('project.categoryid',array(3,4));
+        $rs1 = $this->db->get()->result();
+        
+        $contactid_not = array();
+        foreach($rs1 as $v){
+            $contactid_not[] = $v->contactid;
+        }
+        
+        $this->db->select("*");
+        $this->db->from("contact");
+        $this->db->where("contactType",3);
+        if(!empty($contactid_not))
+        $this->db->where_not_in("contactid", $contactid_not);
+        
+        $rs = $this->db->get()->result();
+        foreach ($rs as $value) {
+            $data[$value->contactid] = $value->firstName . " " . $value->lastName;
+        }
+        return $data;
+    }
+    
     public function getPriorities() {
         $this->db->select("*");
         $this->db->from("priority");
@@ -74,7 +147,7 @@ project.dueDate", false);
     }
     
     public function getProjectsDetail(){
-        $this->db->select("project_category.category, count(project.categoryid) cat_count", false);
+        $this->db->select("project_category.projectCategoryid,  project_category.category, count(project.categoryid) cat_count ", false);
         $this->db->from("project");
         $this->db->join("project_category", "project.categoryid = project_category.projectCategoryid","RIGHT");
         $this->db->group_by("project_category.category");
@@ -88,6 +161,7 @@ project.dueDate", false);
         $this->db->select("count(*) overdue", false);
         $this->db->from("project");
         $this->db->where("dueDate < ",date("Y-m-d"));
+        $this->db->where("categoryid != ",3);
         $rs2 = $this->db->get()->result();
         
         $data = array("prg_cat" => $rs1,
@@ -95,6 +169,7 @@ project.dueDate", false);
                      "overdues" =>$rs2[0]->overdue
             );
         return $data;
+        
         
     }
 

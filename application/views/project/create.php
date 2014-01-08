@@ -22,7 +22,7 @@
                 </div>
             </div>
             <form class="form-horizontal" id="validation-form">
-                <div class="span12">
+                <div class="span6">
                     <div class="widget-box">
                         <div class="widget-header widget-header-blue widget-header-flat">
                             <h4 class="lighter">Project Information</h4>
@@ -60,23 +60,14 @@
                                     </div>
                                 </div>
 
-                                <div class="control-group info">
-                                    <label class="control-label" for="managerid">Manager</label>
-                                    <div class="controls">
-                                        <div class="btn-group">
-                                            <div class="btn-group">
-                                                <?php echo form_dropdown('managerid', $managers, '', "class='span12'") ?>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                
 
                                 <div class="control-group info">
                                     <label class="control-label" for="dateStart">Start Date</label>
                                     <div class="controls">
                                         
                                             <div class="row-fluid input-append">
-                                                <input class="span2 date-picker" name="dateStart" id="dateStart" type="text" data-date-format="yyyy-mm-dd" />
+                                                <input class="span6 date-picker" name="dateStart" id="dateStart" type="text" data-date-format="yyyy-mm-dd" />
                                                 <span class="add-on">
                                                     <i class="icon-calendar"></i>
                                                 </span>
@@ -101,7 +92,7 @@
                                     <div class="controls">
                                         
                                             <div class="row-fluid input-append">
-                                                <input class="span2 date-picker" name="dueDate" id="dueDate" type="text" data-date-format="yyyy-mm-dd" />
+                                                <input class="span6 date-picker" name="dueDate" id="dueDate" type="text" data-date-format="yyyy-mm-dd" />
                                                 <span class="add-on">
                                                     <i class="icon-calendar"></i>
                                                 </span>
@@ -141,7 +132,46 @@
 
                             </div>
                         </div>
-                        <div class="form-actions">
+                        
+                    </div>
+
+                </div>
+                <div class="span6">
+                    <div class="widget-box">
+                        <div class="widget-header widget-header-blue widget-header-flat">
+                            <h4 class="lighter">The Team</h4>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main">
+                                
+                                <div class="control-group info">
+                                    <label class="control-label" for="managerid">Manager</label>
+                                    <div class="controls">
+                                        <div class="btn-group">
+                                            <div class="btn-group">
+                                                <?php echo form_dropdown('managerid', $managers, '', "class='span12'") ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="control-group info">
+                                    <label class="control-label" for="team">Team Members</label>
+                                    <div class="controls">
+                                        <div class="btn-group">
+                                            <div class="btn-group">
+                                                <?php echo form_dropdown('teamMemberid', $teamMembers, array(2,6), "class='span12' id='teamMembers'") ?>
+                                                <input type="hidden" name="teamMembers_hidden" id="teamMembers_hidden" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
                             <div class="span12">
                                 <button class="span4 btn btn-info" id="btn-submit" type="submit">
                                     <i class="icon-ok bigger-110"></i>
@@ -156,9 +186,8 @@
                                 </button>
                             </div>
                         </div>
-                    </div>
-
                 </div>
+                
             </form>
 
         </div>
@@ -221,6 +250,10 @@
 
                 bootbox.confirm("<h3>Please confirm the inputs.</h3>", function(result) {
                     if (result) {
+                        var items = [];
+                        $("#teamMembers option:selected").map(function(){ items.push($(this).val()); }).get().join(", ");
+                        var result = items.join(', ');
+                        $('#teamMembers_hidden').val(result);
                         $.ajax({
                             dataType: 'html',
                             type: 'post',
@@ -236,13 +269,15 @@
                                 }
                             },
                             error: function(responseData) {
-                                bootbox.alert('Ajax request not recieved!');
+                                bootbox.alert('Ajax request not recieved! ');
                             }
                         });
                     }
                 });
             },
             invalidHandler: function(form) {
+                
+                
                 bootbox.alert("<h3>Validation Error.</h3><br>Please complete the fields in red.");
             }
         });
@@ -256,5 +291,7 @@
             showSeconds: true,
             showMeridian: false
         });
+        
+        
     });
 </script>

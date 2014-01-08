@@ -35,7 +35,23 @@ class Project extends CI_Controller {
         $this->load->view("layout/template", $data);
     }
 
-    public function get($catid) {
+    public function get() {
+        header("content-type: application/json");
+
+        $p = $this->project_model->getAllProjects();
+
+        echo json_encode($p);
+    }
+    
+     public function getOverDues() {
+        header("content-type: application/json");
+
+        $p = $this->project_model->getAllProjects('overDues');
+
+        echo json_encode($p);
+    }
+    
+    public function getByCat($catid) {
         header("content-type: application/json");
 
         $p = $this->project_model->getAllProjects($catid);
@@ -49,6 +65,7 @@ class Project extends CI_Controller {
         $data["menu"] = $this->accounts_model->loadMenu();
         $data['categories'] = $this->project_model->getCategories();
         $data['managers'] = $this->project_model->getManagers();
+        $data['teamMembers'] = $this->project_model->getTeamMembers();
         $data['priorities'] = $this->project_model->getPriorities();
         $this->load->view("layout/template", $data);
     }
@@ -68,7 +85,19 @@ class Project extends CI_Controller {
         );
         
         
+        
+        
         if ($this->db->insert("project", $data)) {
+            $projectid = $this->db->insert_id();
+            $membersid = explode(',',$this->input->post('teamMembers_hidden'));
+            
+            
+            foreach($membersid as $k => $value){
+                $mem_data = array('projectid' => $projectid, "contactid" => $value);
+                $this->db->insert("project_memebers",$mem_data);
+            }
+            
+            
             echo 1;
         } else {
             echo 0;
