@@ -6,11 +6,37 @@ if (!defined('BASEPATH')) {
 
 class Project_model extends CI_Model {
 
+    public function getProjectsById($projectid){
+        
+        $this->db->select("project.projectid,
+                            project.`name`,
+                            project.categoryid,
+                            project.managerid,
+                            project.clientaccess,
+                            date_format(project.dateStart,'%Y-%m-%d') fstartdate,
+                            date_format(project.dateStart,'%H:%i:%s') fstarttime,
+                            date_format(project.dueDate,'%Y-%m-%d') fduedate,
+                            date_format(project.dueDate,'%H:%i:%s') fduetime,
+                            project.priority,
+                            project.timeAllocated,
+                            project.qoutedPrice,
+                            project.invoicePrice,
+                            project.description", FALSE);
+        $this->db->from("project");
+        $this->db->where("md5(projectid)",$projectid);
+        $rs = $this->db->get()->result();
+        return $rs;
+        
+    }
+    
+    
     public function getAllProjects($cat = "") {
 
-        $this->db->select("project.`name` as 'projectName' ,priority.priority,project_category.category, CONCAT(contact.firstName,' ',contact.lastName) as 'manager',
-date_format(project.dateStart, '%b %D, %Y') dateStart,
-date_format(project.dueDate, '%b %D, %Y') dueDate, TIMEDIFF(project.dueDate, NOW()) dueDateFormated", false);
+        $this->db->select("project.projectid, project.`name` as 'projectName' ,priority.priority,project_category.category, 
+                           CONCAT(contact.firstName,' ',contact.lastName) as 'manager',
+                           date_format(project.dateStart, '%b %D, %Y') dateStart,
+                           date_format(project.dueDate, '%b %D, %Y') dueDate, 
+                           TIMEDIFF(project.dueDate, NOW()) dueDateFormated", false);
         $this->db->from("project");
         $this->db->join('contact', 'contact.contactid = project.managerid');
         $this->db->join('priority', 'priority.priorityid = project.priority');
@@ -28,11 +54,17 @@ date_format(project.dueDate, '%b %D, %Y') dueDate, TIMEDIFF(project.dueDate, NOW
 
 
         $rs = $this->db->get()->result();
-
+      
         $dataArray = array();
         foreach ($rs as $rows) {
+            $this->db->select("count(contactid) countmembers");
+            $this->db->from("project_memebers");
+            $this->db->where("projectid",$rows->projectid);
+            
+            $rsmembers = $this->db->get()->result();
+            $countmemebers = $rsmembers[0]->countmembers;
 
-            $projectName = "<a href='#'>" . $rows->projectName . "</a>";
+            $projectName = "<a href='".base_url()."project/detail/".md5($rows->projectid)."'>" . $rows->projectName . "</a>";
             
             $manager = $rows->manager;
             
@@ -82,7 +114,7 @@ date_format(project.dueDate, '%b %D, %Y') dueDate, TIMEDIFF(project.dueDate, NOW
 
 
 
-            $dataArray[] = array($projectName, $manager, $priority,$status, $startDate, $dueDate);
+            $dataArray[] = array($projectName, $manager, $countmemebers,  $priority,$status, $startDate, $dueDate);
         }
 
         return array("aaData" => $dataArray);
@@ -109,12 +141,38 @@ date_format(project.dueDate, '%b %D, %Y') dueDate, TIMEDIFF(project.dueDate, NOW
         return $data;
     }
     
+    public function getPorjectTeamMembers($projectid){
+        
+        $this->db->select("contact.contactid");
+        $this->db->from("contact");
+        $this->db->join("project_memebers", "contact.contactid = project_memebers.contactid");
+        $this->db->where("md5(project_memebers.projectid)",$projectid);
+        $rs1 = $this->db->get()->result();  
+        $contactid = array();
+        foreach($rs1 as $v){
+            $contactid[] = $v->contactid;
+        }
+        
+        $this->db->select("*");
+        $this->db->from("contact");
+        $this->db->where("contactType",3);
+        if(!empty($contactid))
+        $this->db->where_in("contactid", $contactid);
+        
+        $rs = $this->db->get()->result();
+        foreach ($rs as $value) {
+            $data[$value->contactid] = $value->firstName . " " . $value->lastName;
+        }
+        return $data;
+    }
+    
+    
      public function getTeamMembers() {
         $this->db->select("contact.contactid");
         $this->db->from("contact");
         $this->db->join("project_memebers","contact.contactid = project_memebers.contactid");
         $this->db->join("project","project_memebers.projectid = project.projectid");
-        $this->db->where("contact.contactType", 3);
+        $this->db->where("project.categoryid", 3);
         $this->db->or_where_in('project.categoryid',array(3,4));
         $rs1 = $this->db->get()->result();
         

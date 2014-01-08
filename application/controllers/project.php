@@ -24,7 +24,26 @@ class Project extends CI_Controller {
 
         //$this->load->view("login");
     }
-
+    
+    
+    public function detail($projectid){
+        $data["title"] = "SAB | Project Detail";
+        $data["container"] = "project/detail";
+        $data['menu'] = $this->accounts_model->loadMenu();
+        $data['categories'] = $this->project_model->getCategories();
+        $data['priorities'] = $this->project_model->getPriorities();
+        $data['managers'] = $this->project_model->getManagers();
+        $data['teamMembers'] = $this->project_model->getPorjectTeamMembers($projectid);
+        $teamMemberid = array();
+        foreach($data['teamMembers'] as $k => $v){
+            $teamMemberid[] = $k;
+        }
+        $data["teamMemberid"] = $teamMemberid;
+        $data['projects_detail'] = $this->project_model->getProjectsById($projectid);
+        
+        $this->load->view("layout/template", $data);
+    }
+    
     public function summary() {
         $data["title"] = "SAB | Project Summary";
         $data["container"] = "project/summary";
