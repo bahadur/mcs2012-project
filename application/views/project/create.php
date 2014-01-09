@@ -60,24 +60,24 @@
                                     </div>
                                 </div>
 
-                                
+
 
                                 <div class="control-group info">
                                     <label class="control-label" for="dateStart">Start Date</label>
                                     <div class="controls">
-                                        
-                                            <div class="row-fluid input-append">
-                                                <input class="span6 date-picker" name="dateStart" id="dateStart" type="text" data-date-format="yyyy-mm-dd" />
-                                                <span class="add-on">
-                                                    <i class="icon-calendar"></i>
-                                                </span>
-                                            </div>
-                                        
+
+                                        <div class="row-fluid input-append">
+                                            <input class="span6 date-picker" name="dateStart" id="dateStart" type="text" data-date-format="yyyy-mm-dd" />
+                                            <span class="add-on">
+                                                <i class="icon-calendar"></i>
+                                            </span>
+                                        </div>
+
                                     </div>
                                 </div>
 
                                 <div class="control-group info">
-                                    
+
                                     <div class="controls input-append bootstrap-timepicker">
                                         <input id="dateStart_time" name="dateStart_time" type="text" class="span6" />
                                         <span class="add-on">
@@ -90,14 +90,14 @@
                                 <div class="control-group info">
                                     <label class="control-label" for="dueDate">Due Date</label>
                                     <div class="controls">
-                                        
-                                            <div class="row-fluid input-append">
-                                                <input class="span6 date-picker" name="dueDate" id="dueDate" type="text" data-date-format="yyyy-mm-dd" />
-                                                <span class="add-on">
-                                                    <i class="icon-calendar"></i>
-                                                </span>
-                                            </div>
-                                        
+
+                                        <div class="row-fluid input-append">
+                                            <input class="span6 date-picker" name="dueDate" id="dueDate" type="text" data-date-format="yyyy-mm-dd" />
+                                            <span class="add-on">
+                                                <i class="icon-calendar"></i>
+                                            </span>
+                                        </div>
+
                                     </div>
                                 </div>
                                 <div class="control-group info">
@@ -132,7 +132,7 @@
 
                             </div>
                         </div>
-                        
+
                     </div>
 
                 </div>
@@ -143,7 +143,7 @@
                         </div>
                         <div class="widget-body">
                             <div class="widget-main">
-                                
+
                                 <div class="control-group info">
                                     <label class="control-label" for="managerid">Manager</label>
                                     <div class="controls">
@@ -154,40 +154,44 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="control-group info">
+                                    
                                     <label class="control-label" for="team">Team Members</label>
-                                    <div class="controls">
+                                    
+                                    <div class="controls"><?php if (!empty($teamMembers)) { ?>
                                         <div class="btn-group">
                                             <div class="btn-group">
-                                                <?php echo form_dropdown('teamMemberid', $teamMembers, array(2,6), "class='span12' id='teamMembers'") ?>
+                                                <?php echo form_dropdown('teamMemberid', $teamMembers, array(2, 6), "class='span12' id='teamMembers'")?>
                                                 <input type="hidden" name="teamMembers_hidden" id="teamMembers_hidden" />
-                                            </div>
-                                        </div>
+                                            </div> 
+                                        
+                                        </div><?php } else { echo "All Team memebers are buzy"; } ?>
+                                       
                                     </div>
                                     
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
                     <div class="form-actions">
-                            <div class="span12">
-                                <button class="span4 btn btn-info" id="btn-submit" type="submit">
-                                    <i class="icon-ok bigger-110"></i>
-                                    Submit
-                                </button>
+                        <div class="span12">
+                            <button class="span4 btn btn-info" id="btn-submit" type="submit">
+                                <i class="icon-ok bigger-110"></i>
+                                Submit
+                            </button>
 
 
-                                &nbsp; &nbsp; &nbsp;
-                                <button class="span4 btn" type="reset">
-                                    <i class="icon-undo bigger-110"></i>
-                                    Reset
-                                </button>
-                            </div>
+                            &nbsp; &nbsp; &nbsp;
+                            <button class="span4 btn" type="reset">
+                                <i class="icon-undo bigger-110"></i>
+                                Reset
+                            </button>
                         </div>
+                    </div>
                 </div>
-                
+
             </form>
 
         </div>
@@ -240,7 +244,7 @@
                 else if (element.is('.chzn-select')) {
                     error.insertAfter(element.siblings('[class*="chzn-container"]:eq(0)'));
                 }
-                else if(element.is('.date-picker')){
+                else if (element.is('.date-picker')) {
                     error.insertAfter(element.siblings('[class*="add-on"]:eq(0)'));
                 }
                 else
@@ -251,7 +255,9 @@
                 bootbox.confirm("<h3>Please confirm the inputs.</h3>", function(result) {
                     if (result) {
                         var items = [];
-                        $("#teamMembers option:selected").map(function(){ items.push($(this).val()); }).get().join(", ");
+                        $("#teamMembers option:selected").map(function() {
+                            items.push($(this).val());
+                        }).get().join(", ");
                         var result = items.join(', ');
                         $('#teamMembers_hidden').val(result);
                         $.ajax({
@@ -265,7 +271,7 @@
                                     $("#submit_result").attr("style", "display:block");
                                 }
                                 else {
-                                    bootbox.alert("Coun'nt create account");
+                                    bootbox.alert("Could not create account");
                                 }
                             },
                             error: function(responseData) {
@@ -276,8 +282,8 @@
                 });
             },
             invalidHandler: function(form) {
-                
-                
+
+
                 bootbox.alert("<h3>Validation Error.</h3><br>Please complete the fields in red.");
             }
         });
@@ -291,7 +297,7 @@
             showSeconds: true,
             showMeridian: false
         });
-        
-        
+
+
     });
 </script>

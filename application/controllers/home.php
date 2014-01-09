@@ -11,7 +11,7 @@ class Home extends CI_Controller
     {
         parent::__construct();
         $this->load->model("accounts_model");
-
+        $this->load->model("project_model");
         if (!$this->session->userdata("login_id"))
             redirect(base_url() . "account");
             
@@ -22,8 +22,11 @@ class Home extends CI_Controller
         //echo $this->uri->segment(2); die;
         $data["title"] = "SAB | Dashboard";
 
+        $data['projects_detail'] = $this->project_model->getProjectsDetail();
         switch ($this->session->userdata('contact_type'))
-        {
+        {   
+            
+            
             case "1":
                 $data['container'] = 'dashboard/administrator';
                 break;

@@ -1,9 +1,11 @@
+
 <div class="main-content">
     <?php $this->load->view("layout/breadcrumb"); ?>
     <div class="page-content">
         <div class="page-header position-relative">
             <h1>
                 Project Detail
+               
             </h1>
         </div>
         <div class="row-fluid">
@@ -45,6 +47,7 @@
                                     <div class="controls">
                                         <div class="span12">
                                             <input type="text" id="name" name="name" value="<?php echo $projects_detail[0]->name ?>" placeholder="Project Title" class="span6" />
+                                            <input type="hidden" name="projectid" value="<?php echo $projects_detail[0]->projectid?>" />
                                         </div>
                                     </div>
                                 </div>
@@ -157,13 +160,13 @@
                                 
                                 <div class="control-group info">
                                     <label class="control-label" for="team">Team Members</label>
-                                    <div class="controls">
+                                    <div class="controls"><?php if (!empty($teamMembers)) { ?>
                                         <div class="btn-group">
                                             <div class="btn-group">
                                                 <?php echo form_dropdown('teamMemberid', $teamMembers, $teamMemberid, "class='span12' id='teamMembers'") ?>
                                                 <input type="hidden" name="teamMembers_hidden" id="teamMembers_hidden" />
                                             </div>
-                                        </div>
+                                        </div><?php } else { echo "All Team memebers are buzy"; } ?>
                                     </div>
                                     
                                 </div>
@@ -175,7 +178,7 @@
                             <div class="span12">
                                 <button class="span4 btn btn-info" id="btn-submit" type="submit">
                                     <i class="icon-ok bigger-110"></i>
-                                    Submit
+                                    Update
                                 </button>
 
 
@@ -248,7 +251,7 @@
             },
             submitHandler: function(form) {
 
-                bootbox.confirm("<h3>Please confirm the inputs.</h3>", function(result) {
+                bootbox.confirm("<h3>Values changes will be update permenantly. click ok to confirm.</h3>", function(result) {
                     if (result) {
                         var items = [];
                         $("#teamMembers option:selected").map(function(){ items.push($(this).val()); }).get().join(", ");
@@ -257,7 +260,7 @@
                         $.ajax({
                             dataType: 'html',
                             type: 'post',
-                            url: '<?php echo base_url('project/add_new') ?>',
+                            url: '<?php echo base_url('project/update') ?>',
                             data: $(form).serialize(),
                             success: function(responseData) {
                                 if (responseData == 1) {
@@ -265,7 +268,7 @@
                                     $("#submit_result").attr("style", "display:block");
                                 }
                                 else {
-                                    bootbox.alert("Coun'nt create account");
+                                    bootbox.alert("Could not update record");
                                 }
                             },
                             error: function(responseData) {

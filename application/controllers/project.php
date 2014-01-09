@@ -34,23 +34,26 @@ class Project extends CI_Controller {
         $data['priorities'] = $this->project_model->getPriorities();
         $data['managers'] = $this->project_model->getManagers();
         $data['teamMembers'] = $this->project_model->getPorjectTeamMembers($projectid);
-        $teamMemberid = array();
-        foreach($data['teamMembers'] as $k => $v){
-            $teamMemberid[] = $k;
+        
+        $data["teamMemberid"] = $this->project_model->getTeamMembersIds($projectid);
+        if(empty($data["teamMemberid"])){
+            $data["teamMemberid"] = array(-1,-2);
         }
-        $data["teamMemberid"] = $teamMemberid;
         $data['projects_detail'] = $this->project_model->getProjectsById($projectid);
         
         $this->load->view("layout/template", $data);
     }
     
     public function summary() {
+        
         $data["title"] = "SAB | Project Summary";
         $data["container"] = "project/summary";
         $data['menu'] = $this->accounts_model->loadMenu();
         $data['project_categories'] = $this->project_model->getCategories();
-        $data['projects_detail'] = $this->project_model->getProjectsDetail();
-        
+        //if($this->session->userdata('contact_type') == 1)
+            $data['projects_detail'] = $this->project_model->getProjectsDetail();
+        //else
+           // $data['projects_detail'] = $this->project_model->getProjectsDetail($this->session->userdata("login_id"));
         $this->load->view("layout/template", $data);
     }
 
@@ -85,10 +88,46 @@ class Project extends CI_Controller {
         $data['categories'] = $this->project_model->getCategories();
         $data['managers'] = $this->project_model->getManagers();
         $data['teamMembers'] = $this->project_model->getTeamMembers();
+        
         $data['priorities'] = $this->project_model->getPriorities();
         $this->load->view("layout/template", $data);
     }
-
+    
+    // Ajax methods 
+    public function update(){
+        $data = array(
+            'name'          => $this->input->post('name'),
+            'categoryid'    => $this->input->post('categoryid'),
+            'managerid'     => $this->input->post('managerid'),
+            'clientaccess'  => $this->input->post('clientaccess'),
+            'dateStart'     => $this->input->post('dateStart') . ' ' . $this->input->post('dateStart_time'),
+            'dueDate'       => $this->input->post('dueDate') . ' ' . $this->input->post('dueDate_time'),
+            'priority'      => $this->input->post('priority'),
+            'description'   => $this->input->post('description')
+        );
+        
+        $this->db->where('projectid', $this->input->post('projectid'));
+        if($this->db->update('project', $data)){
+            
+            $this->db->delete('project_memebers', array('projectid' => $this->input->post('projectid')));
+            
+            $membersid = explode(',',$this->input->post('teamMembers_hidden'));
+            
+            
+            foreach($membersid as $k => $value){
+                $mem_data = array('projectid' => $this->input->post('projectid'), "contactid" => $value);
+                $this->db->insert("project_memebers",$mem_data);
+            }
+            
+             echo 1;
+            
+        } else {
+            echo 0;
+        }
+        
+        
+        
+    }
     public function add_new() {
         $this->load->library('email');
         $data = array(

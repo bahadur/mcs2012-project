@@ -38,9 +38,12 @@ class Project_model extends CI_Model {
                            date_format(project.dueDate, '%b %D, %Y') dueDate, 
                            TIMEDIFF(project.dueDate, NOW()) dueDateFormated", false);
         $this->db->from("project");
-        $this->db->join('contact', 'contact.contactid = project.managerid');
-        $this->db->join('priority', 'priority.priorityid = project.priority');
-        $this->db->join('project_category', 'project_category.projectCategoryid = project.categoryid');
+        if($this->session->userdata('contact_type') == 2)
+            $this->db->where("project.managerid", $this->session->userdata("login_id"));
+                
+        
+        
+        
         if(!empty($cat)){
             if($cat == "overDues"){
                 $this->db->where("dueDate < ",date("Y-m-d"));
@@ -50,6 +53,11 @@ class Project_model extends CI_Model {
                 $this->db->where("project.categoryid", $cat);
             }
         }
+        
+        $this->db->join('contact', 'contact.contactid = project.managerid');
+        $this->db->join('priority', 'priority.priorityid = project.priority');
+        $this->db->join('project_category', 'project_category.projectCategoryid = project.categoryid');
+        
 
 
 
@@ -143,24 +151,18 @@ class Project_model extends CI_Model {
     
     public function getPorjectTeamMembers($projectid){
         
-        $this->db->select("contact.contactid");
-        $this->db->from("contact");
-        $this->db->join("project_memebers", "contact.contactid = project_memebers.contactid");
-        $this->db->where("md5(project_memebers.projectid)",$projectid);
-        $rs1 = $this->db->get()->result();  
-        $contactid = array();
-        foreach($rs1 as $v){
-            $contactid[] = $v->contactid;
-        }
+       
         
-        $this->db->select("*");
-        $this->db->from("contact");
-        $this->db->where("contactType",3);
-        if(!empty($contactid))
-        $this->db->where_in("contactid", $contactid);
+        $rs = $this->db->query("SELECT * FROM (contact) WHERE contactType = 3 AND contactid IN (SELECT contact.contactid 
+                                FROM (contact) 
+                                JOIN project_memebers ON contact.contactid = project_memebers.contactid 
+                                WHERE md5(project_memebers.projectid) = '".$projectid."' UNION ALL
+                                SELECT contact.contactid from contact where contact.contactType = 3 
+                                and contactid not in (SELECT contactid from project_memebers where md5(projectid) != '".$projectid."'))");
         
-        $rs = $this->db->get()->result();
-        foreach ($rs as $value) {
+        $result = $rs->result();
+        $data = array();
+        foreach ($result as $value) {
             $data[$value->contactid] = $value->firstName . " " . $value->lastName;
         }
         return $data;
@@ -172,7 +174,7 @@ class Project_model extends CI_Model {
         $this->db->from("contact");
         $this->db->join("project_memebers","contact.contactid = project_memebers.contactid");
         $this->db->join("project","project_memebers.projectid = project.projectid");
-        $this->db->where("project.categoryid", 3);
+        $this->db->where("contact.contactType", 3);
         $this->db->or_where_in('project.categoryid',array(3,4));
         $rs1 = $this->db->get()->result();
         
@@ -185,9 +187,10 @@ class Project_model extends CI_Model {
         $this->db->from("contact");
         $this->db->where("contactType",3);
         if(!empty($contactid_not))
-        $this->db->where_not_in("contactid", $contactid_not);
+            $this->db->where_not_in("contactid", $contactid_not);
         
         $rs = $this->db->get()->result();
+        $data = array();
         foreach ($rs as $value) {
             $data[$value->contactid] = $value->firstName . " " . $value->lastName;
         }
@@ -207,9 +210,16 @@ class Project_model extends CI_Model {
     public function getProjectsDetail(){
         $this->db->select("project_category.projectCategoryid,  project_category.category, count(project.categoryid) cat_count ", false);
         $this->db->from("project");
+        if($this->session->userdata('contact_type') == 2)
+            $this->db->where("project.managerid", $this->session->userdata("login_id"));
+                
+        
+        
         $this->db->join("project_category", "project.categoryid = project_category.projectCategoryid","RIGHT");
+        
         $this->db->group_by("project_category.category");
         $rs1 = $this->db->get()->result();
+        
         $total = 0;
         foreach($rs1 as $val){
             $total += $val->cat_count;
@@ -218,6 +228,9 @@ class Project_model extends CI_Model {
         
         $this->db->select("count(*) overdue", false);
         $this->db->from("project");
+        if($this->session->userdata('contact_type') == 2)
+            $this->db->where("project.managerid", $this->session->userdata("login_id"));
+          
         $this->db->where("dueDate < ",date("Y-m-d"));
         $this->db->where("categoryid != ",3);
         $rs2 = $this->db->get()->result();
@@ -229,6 +242,19 @@ class Project_model extends CI_Model {
         return $data;
         
         
+    }
+    
+    public function getTeamMembersIds($projectid){
+        $this->db->select("project_memebers.contactid");
+        $this->db->from("project_memebers");
+        $this->db->where("md5(project_memebers.projectid)",$projectid);
+        $rs = $this->db->get()->result();
+        $data = array();
+        foreach ($rs as $v){
+            $data[] = $v->contactid;
+         }
+        
+        return $data;
     }
 
 }
