@@ -288,7 +288,7 @@ class Accounts_model extends CI_Model {
         $dataArray = array();
         foreach ($rs as $rows) {
 
-            $name = "<a href='#'>" . $rows->name . "</a>";
+            $name = "<a href='javascript:void(0)' class='prj_id' id='project_".$rows->projectid."' >" . $rows->name . "</a>";
             $startDate = $rows->dateStart;
             $dueDate = $rows->dueDate;
 

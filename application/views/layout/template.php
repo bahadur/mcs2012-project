@@ -12,6 +12,7 @@
         <link href="<?php echo base_url() ?>assets/css/bootstrap.min.css" rel="stylesheet" />
         <link href="<?php echo base_url() ?>assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
         <link href="<?php echo base_url() ?>assets/css/font-awesome.min.css" rel="stylesheet" />
+        <link href="<?php echo base_url() ?>assets/css/chosen.css" rel="stylesheet"  />
         <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
 
@@ -99,6 +100,7 @@ window.jQuery || document.write("<script src='<?php echo base_url() ?>assets/js/
         <script src="<?php echo base_url('assets/js/date-time/bootstrap-timepicker.min.js') ?>"></script>
         <script src="<?php echo base_url('assets/js/date-time/moment.min.js') ?>"></script>
 	<script src="<?php echo base_url('assets/js/date-time/daterangepicker.min.js') ?>"></script>
+        <script src="<?php echo base_url('assets/js/chosen.jquery.min.js') ?>"></script>
 
         <!--ace scripts-->
 

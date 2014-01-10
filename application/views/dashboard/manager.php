@@ -117,6 +117,7 @@
     $(function() {
 
         $("#project_btn").on("click", function() {
+            
             $("#project_details thead").html('<tr><th>Project Name</th><th>Start Date</th><th>Due Date</th></tr>');
             $("#project_details tfoot").html('<tr><th>Project Name</th><th>Start Date</th><th>Due Date</th></tr>');
             $("#project_details").dataTable({
@@ -125,15 +126,23 @@
                 "sAjaxSource": "<?php echo base_url() ?>account/projects",
             });
         });
-
-        $("#task_btn").on("click", function() {
-            $("#project_details thead").html('<tr><th>Task</th><th>Project Name</th><th>Start Date</th><th>Due Date</th></tr>');
-            $("#project_details tfoot").html('<tr><th>Task</th><th>Project Name</th><th>Start Date</th><th>Due Date</th></tr>');
+        
+        
+        $("#project_btn").on("click", function() {
+            
+            $("#project_details thead").html('<tr><th>Project Name</th><th>Start Date</th><th>Due Date</th></tr>');
+            $("#project_details tfoot").html('<tr><th>Project Name</th><th>Start Date</th><th>Due Date</th></tr>');
             $("#project_details").dataTable({
                 "bProcessing": true,
                 "bDestroy": true,
-                "sAjaxSource": "<?php echo base_url() ?>account/tasks",
+                "sAjaxSource": "<?php echo base_url() ?>account/projects",
             });
+        });
+        
+       
+
+        $("a.prj_id").click(function() {
+           alert("clicked");
         });
 
         $("#member_btn").on("click", function() {
@@ -147,6 +156,7 @@
         });
 
         $("#project_details").dataTable({
+        
             "bProcessing": true,
             "sAjaxSource": "<?php echo base_url() ?>account/projects",
         });
@@ -160,7 +170,11 @@
             "bProcessing": true,
             "sAjaxSource": "<?php echo base_url() ?>account/members",
         });
-    })
+
+
+        
+
+    });
 </script>
 
 

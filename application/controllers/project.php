@@ -27,8 +27,21 @@ class Project extends CI_Controller {
     
     
     public function detail($projectid){
+        try {
+            if ($this->session->userdata('contact_type') == 3) {
+               throw new Exception();
+            } 
+        } catch (Exception $e) {
+            show_404();
+        }
+        
+        
         $data["title"] = "SAB | Project Detail";
-        $data["container"] = "project/detail";
+        if ($this->session->userdata('contact_type') == 1){
+            $data["container"] = "project/administrator_detail";
+        } else {
+            $data["container"] = "project/manager_detail";
+        }
         $data['menu'] = $this->accounts_model->loadMenu();
         $data['categories'] = $this->project_model->getCategories();
         $data['priorities'] = $this->project_model->getPriorities();
