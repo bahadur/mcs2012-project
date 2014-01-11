@@ -215,5 +215,19 @@ class Account extends CI_Controller {
 
         echo json_encode($this->accounts_model->getTasks($this->session->userdata('login_id')));
     }
+    
+     public function members() {
+        header("content-type: application/json");
+        $rsdata = $this->accounts_model->getMembers($this->session->userdata('login_id'));
+        //$dataArray = array();
+//        foreach ($rsdata as $value) {
+//            $name = $value->firstName." ".$value->lastName;
+//            $email = $value->email;
+//            $taskassing = 1;
+//            $dataArray[] = array($name, $email, $taskassing);
+//        }
+         
+       // echo json_encode(array("aaData" => $dataArray));
+    }
 
 }

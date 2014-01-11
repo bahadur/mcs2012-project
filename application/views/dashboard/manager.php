@@ -51,11 +51,9 @@
             </div><!--/.span-->
 
             <div class="row-fluid">
-                <div class="span6">
+                <div class="span12">
                     <h3 class="header smaller lighter blue">Projects in Action</h3>
-                    <div class="table-header">
-                        Results for "Projects"
-                    </div>
+                    
                     <table id="project_details" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
@@ -76,12 +74,14 @@
                     </table>
 
                 </div>
-
+            </div>
+            
+            
+            <div class="row-fluid">
+                
                 <div class="span6">
                     <h3 class="header smaller lighter blue">Tasks</h3>
-                    <div class="table-header">
-                        Results for "Tasks"
-                    </div>
+                   
                     <table id="task_details" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
@@ -98,6 +98,31 @@
                                 <th>Project Name</th>
                                 <th>Start Date</th>
                                 <th>Due Date</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+                
+                <div class="span6">
+                    <h3 class="header smaller lighter blue">Members</h3>
+                    
+                    <table id="member_details" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Tasks</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Tasks</th>
+                                
                             </tr>
                         </tfoot>
                     </table>

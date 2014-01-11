@@ -279,18 +279,34 @@ class Accounts_model extends CI_Model {
     }
 
     public function getProjects($contactid) {
-        $this->db->select("*");
+        $this->db->select("project.projectid, project.`name` as 'projectName' ,priority.priority, project_category.category, 
+                           CONCAT(contact.firstName,' ',contact.lastName) as 'manager',
+                           date_format(project.dateStart, '%b %D, %Y') dateStart,
+                           date_format(project.dueDate, '%b %D, %Y') dueDate, 
+                           TIMEDIFF(project.dueDate, NOW()) dueDateFormated", false);
         $this->db->from("project");
-        $this->db->where("managerid", $contactid);
+        $this->db->where("project.managerid", $contactid);
+        $this->db->join('contact', 'contact.contactid = project.managerid');
+        $this->db->join('priority', 'priority.priorityid = project.priority');
+        $this->db->join('project_category', 'project_category.projectCategoryid = project.categoryid');
 
         $rs = $this->db->get()->result();
 
         $dataArray = array();
         foreach ($rs as $rows) {
 
-            $name = "<a href='javascript:void(0)' class='prj_id' id='project_".$rows->projectid."' >" . $rows->name . "</a>";
-            $startDate = $rows->dateStart;
-            $dueDate = $rows->dueDate;
+            if($rows->dueDateFormated < 0 && $rows->category != "Completed"){
+                $overdue = "label-important";
+                $dticon = "<i class='icon-bolt'></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+            } else {
+                $overdue =  "label-info";
+                $dticon = ($rows->category == "Completed")?"<i class='icon-ok'></i>&nbsp;&nbsp;":"<i class='icon-share-alt'></i>&nbsp;&nbsp;";
+            }
+            $name = "<a href='javascript:void(0)' class='prj_id' id='project_".$rows->projectid."' >" . $rows->projectName . "</a>";
+            
+            $startDate = '<span class="label  label-large label-info "><i class="fa fa-location-arrow"></i>&nbsp;&nbsp;'.$rows->dateStart.'</span>';
+            $dueDate = '<span class="label  label-large  '.$overdue.'" >'.$dticon.$rows->dueDate.'</span>';
+            
 
 
 
@@ -306,8 +322,9 @@ class Accounts_model extends CI_Model {
 
         $this->db->select("project.`name` as 'projectName',
                           task.taskName ,
-                          task.startDate,
-                          task.dueDate");
+                          date_format(project.dateStart, '%b %D, %Y') dateStart,
+                          date_format(project.dueDate, '%b %D, %Y') dueDate, 
+                          TIMEDIFF(project.dueDate, NOW()) dueDateFormated", false);
         $this->db->from("task");
         $this->db->join("project", "task.projectid = project.projectid");
         $this->db->where("project.managerid", $contactid);
@@ -319,8 +336,18 @@ class Accounts_model extends CI_Model {
 
             $projectName = "<a href='#'>" . $rows->projectName . "</a>";
             $taskName = "<a href='#'>" . $rows->taskName . "</a>";
-            $startDate = $rows->startDate;
-            $dueDate = $rows->dueDate;
+             if($rows->dueDateFormated < 0 ){
+                $overdue = "label-important";
+                $dticon = "<i class='icon-bolt'></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+            } else {
+                $overdue =  "label-info";
+                $dticon = ($rows->category == "Completed")?"<i class='icon-ok'></i>&nbsp;&nbsp;":"<i class='icon-share-alt'></i>&nbsp;&nbsp;";
+            }
+            
+            
+            $startDate = '<span class="label  label-large label-info "><i class="fa fa-location-arrow"></i>&nbsp;&nbsp;'.$rows->dateStart.'</span>';
+            $dueDate = '<span class="label  label-large  '.$overdue.'" >'.$dticon.$rows->dueDate.'</span>';
+            
 
 
 
@@ -330,6 +357,34 @@ class Accounts_model extends CI_Model {
         }
 
         return array("aaData" => $dataArray);
+    }
+    
+    
+    public function getMembers($contactid){
+//        $rs = $this->db->query("select * from contact where contactid in (
+//        select contactid from project_memebers where projectid in (
+//        select projectid from project where managerid = ".$contacid."))");
+//        $result = $rs->result();
+        
+       $this->db->select("*");
+       $this->db->from("project");
+       $this->db->where("managerid", $contactid);
+       $prjid = $this->db->get()->result();
+        
+        foreach($prjid as $prjid_val){
+            $this->db->select("*");
+            $this->db->from("project_memebers");
+            $this->db->where("projectid", $prjid_val->projectid);
+            $prj_membersid = $this->db->get()->result();
+            
+            foreach($prj_membersid as $prj_membersid_val){
+                $data[$prjid_val->projectid][$prj_membersid_val->contactid][] = $prj_membersid_val->taskid;
+            }
+            
+            
+        }
+           print_r($data);
+//return $result;
     }
 
 }

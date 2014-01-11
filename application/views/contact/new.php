@@ -248,7 +248,7 @@
                                 </div>
 
                                 <div class="control-group info">
-                                    <label class="control-label" for="companyid">companyid</label>
+                                    <label class="control-label" for="companyid">Company</label>
                                     <div class="controls">
                                         <div class="span12">
                                             <?php echo form_dropdown('companyid', $companies, '', "class='span10'"); ?>

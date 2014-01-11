@@ -32,7 +32,7 @@ class Project_model extends CI_Model {
     
     public function getAllProjects($cat = "") {
 
-        $this->db->select("project.projectid, project.`name` as 'projectName' ,priority.priority,project_category.category, 
+        $this->db->select("project.projectid, project.`name` as 'projectName' ,priority.priority, project_category.category, 
                            CONCAT(contact.firstName,' ',contact.lastName) as 'manager',
                            date_format(project.dateStart, '%b %D, %Y') dateStart,
                            date_format(project.dueDate, '%b %D, %Y') dueDate, 
