@@ -40,7 +40,7 @@ class Home extends CI_Controller
 
         //$data['container'] = 'dashboard';
         $data['menu'] = $this->accounts_model->loadMenu();
-
+        
         $this->load->view("layout/template", $data);
 
     }
