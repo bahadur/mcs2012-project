@@ -193,7 +193,7 @@
                                         <div class="input-prepend">
                                             <span class="add-on">
                                                 <i class="fa fa-twitter"></i>
-                                            </span><input type="text" id="twitter" name="twitter" placeholder="twitter" />
+                                            </span><input type="text" id="twitter" class="span10" name="twitter" placeholder="twitter" />
                                         </div>
                                     </div>
                                 </div> 
@@ -202,7 +202,7 @@
                                         <div class="input-prepend">
                                             <span class="add-on">
                                                 <i class="fa fa-facebook"></i>
-                                            </span><input type="text" id="facebook" name="facebook"  placeholder="facebook" />
+                                            </span><input type="text" id="facebook" class="span10" name="facebook"  placeholder="facebook" />
                                         </div>
                                     </div>
                                 </div> 
@@ -211,7 +211,7 @@
                                         <div class="input-prepend">
                                             <span class="add-on">
                                                 <i class="fa fa-linkedin"></i>
-                                            </span><input type="text" id="linkedin" name="linkedin"  placeholder="linkedin" />
+                                            </span><input type="text" id="linkedin" class="span10" name="linkedin"  placeholder="linkedin" />
                                         </div>
                                     </div>
                                 </div> 

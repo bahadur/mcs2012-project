@@ -67,9 +67,9 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>Project Manager</th>
-                                        <th>Memebers</th>
-                                        <th>Priority</th>
-                                        <th>Status</th>
+                                        <th class="hidden-phone">Members</th>
+                                        <th class="visible-desktop">Priority</th>
+                                        <th class="hidden-phone">Status</th>
                                         <th>Start</th>
                                         <th>Due</th>
                                     </tr>
@@ -79,9 +79,9 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>Project Manager</th>
-                                        <th>Memebers</th>
-                                        <th>Priority</th>
-                                        <th>Status</th>
+                                        <th class="hidden-phone">Members</th>
+                                        <th class="visible-desktop">Priority</th>
+                                        <th class="hidden-phone">Status</th>
                                         <th>Start</th>
                                         <th>Due</th>
                                     </tr>
@@ -99,6 +99,16 @@
         $("#projects").dataTable({
             "bDestroy": true,
             "bProcessing": true,
+            "aoColumnDefs": [
+                {  "sClass": "hidden-phone", "aTargets": [ 2 ] },
+                {  "sClass": "visible-desktop", "aTargets": [ 3 ] },
+                {  "sClass": "hidden-phone", "aTargets": [ 4 ] },
+                { "sWidth": "25%", "aTargets": [ 0 ] },
+                { "sWidth": "8%", "aTargets": [ 2 ] }
+               
+        
+       
+                ],
             "sAjaxSource": "<?php echo base_url() ?>project/get/"
 
         });

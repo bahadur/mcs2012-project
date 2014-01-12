@@ -78,16 +78,16 @@ class Project_model extends CI_Model {
             
             switch ($rows->priority){
                 case "Very High":
-                    $priority = '<span class="label label-large label-pink arrowed-right">'.$rows->priority.'</span>';
+                    $priority = '<span class="label label-small label-pink arrowed-right">'.$rows->priority.'</span>';
                     break;
                 case "High":
-                    $priority = '<span class="label label-large label-gray arrowed-right">'.$rows->priority.'</span>';
+                    $priority = '<span class="label label-small label-gray arrowed-right">'.$rows->priority.'</span>';
                     break;
                 case "Medium":
-                    $priority = '<span class="label label-purple label-light arrowed-right">'.$rows->priority.'</span>';
+                    $priority = '<span class="label label-small label-light arrowed-right">'.$rows->priority.'</span>';
                     break;
                 case "Low":
-                    $priority = '<span class="label label-large label-light arrowed-right">'.$rows->priority.'</span>';
+                    $priority = '<span class="label label-small label-light arrowed-right">'.$rows->priority.'</span>';
                     break;
             }
             
@@ -107,7 +107,7 @@ class Project_model extends CI_Model {
                     
             }
             
-            $startDate = '<span class="label  label-large label-info "><i class="fa fa-location-arrow"></i>&nbsp;&nbsp;'.$rows->dateStart.'</span>';
+            $startDate = '<span class="label  label-small label-info "><i class="fa fa-location-arrow"></i>&nbsp;&nbsp;'.$rows->dateStart.'</span>';
             if($rows->dueDateFormated < 0 && $rows->category != "Completed"){
                 $overdue = "label-important";
                 $dticon = "<i class='icon-bolt'></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -116,13 +116,13 @@ class Project_model extends CI_Model {
                 $dticon = ($rows->category == "Completed")?"<i class='icon-ok'></i>&nbsp;&nbsp;":"<i class='icon-share-alt'></i>&nbsp;&nbsp;";
             }
             
-            $dueDate = '<span class="label  label-large  '.$overdue.'" >'.$dticon.$rows->dueDate.'</span>';
+            $dueDate = '<span class="label  label-small  '.$overdue.'" >'.$dticon.$rows->dueDate.'</span>';
 
 
 
 
 
-            $dataArray[] = array($projectName, $manager, $countmemebers,  $priority,$status, $startDate, $dueDate);
+            $dataArray[] = array($projectName, $manager, $countmemebers,  $priority, $status, $startDate, $dueDate);
         }
 
         return array("aaData" => $dataArray);
