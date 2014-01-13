@@ -372,19 +372,33 @@ class Accounts_model extends CI_Model {
        $prjid = $this->db->get()->result();
         
         foreach($prjid as $prjid_val){
-            $this->db->select("*");
+            $this->db->select("project_memebers.rowid,
+                                project_memebers.projectid,
+                                project_memebers.contactid,
+                                count(project_memebers.taskid) tasks,
+                                contact.firstName,
+                                contact.email,
+                                project.name",false);
             $this->db->from("project_memebers");
-            $this->db->where("projectid", $prjid_val->projectid);
-            $prj_membersid = $this->db->get()->result();
+            $this->db->where("project_memebers.projectid", $prjid_val->projectid);
+            $this->db->join("project","project_memebers.projectid = project.projectid");
+            $this->db->join("contact","project_memebers.contactid = contact.contactid");
+            $this->db->group_by("project_memebers.projectid, project_memebers.contactid");
             
+                    
+
+            
+            $prj_membersid = $this->db->get()->result();
+           
             foreach($prj_membersid as $prj_membersid_val){
-                $data[$prjid_val->projectid][$prj_membersid_val->contactid][] = $prj_membersid_val->taskid;
+                $dataArray[] = array($prj_membersid_val->firstName, $prj_membersid_val->email, $prj_membersid_val->tasks);    
+            //$data[$prjid_val->projectid][$prj_membersid_val->contactid][] = $prj_membersid_val->taskid;
             }
             
             
         }
-           print_r($data);
-//return $result;
+            
+             return array("aaData" => $dataArray);
     }
 
 }
