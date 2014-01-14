@@ -12,6 +12,8 @@
             </h1>
         </div><!--/.page-header-->
 
+        
+
         <div class="row-fluid">
             <div class="span12">
                 <!--PAGE CONTENT BEGINS-->
@@ -53,7 +55,7 @@
             <div class="row-fluid">
                 <div class="span12">
                     <h3 class="header smaller lighter blue">Projects in Action</h3>
-                    
+
                     <table id="project_details" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
@@ -75,13 +77,13 @@
 
                 </div>
             </div>
-            
-            
+
+
             <div class="row-fluid">
-                
+
                 <div class="span6">
                     <h3 class="header smaller lighter blue">Tasks</h3>
-                   
+
                     <table id="task_details" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
@@ -103,17 +105,17 @@
                     </table>
 
                 </div>
-                
+
                 <div class="span6">
                     <h3 class="header smaller lighter blue">Members</h3>
-                    
+
                     <table id="member_details" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Tasks</th>
-                                
+
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -122,7 +124,7 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Tasks</th>
-                                
+
                             </tr>
                         </tfoot>
                     </table>
@@ -142,7 +144,7 @@
     $(function() {
 
         $("#project_btn").on("click", function() {
-            
+
             $("#project_details thead").html('<tr><th>Project Name</th><th>Start Date</th><th>Due Date</th></tr>');
             $("#project_details tfoot").html('<tr><th>Project Name</th><th>Start Date</th><th>Due Date</th></tr>');
             $("#project_details").dataTable({
@@ -151,10 +153,10 @@
                 "sAjaxSource": "<?php echo base_url() ?>account/projects",
             });
         });
-        
-        
+
+
         $("#project_btn").on("click", function() {
-            
+
             $("#project_details thead").html('<tr><th>Project Name</th><th>Start Date</th><th>Due Date</th></tr>');
             $("#project_details tfoot").html('<tr><th>Project Name</th><th>Start Date</th><th>Due Date</th></tr>');
             $("#project_details").dataTable({
@@ -163,11 +165,11 @@
                 "sAjaxSource": "<?php echo base_url() ?>account/projects",
             });
         });
-        
-       
+
+
 
         $("a.prj_id").click(function() {
-           alert("clicked");
+            alert("clicked");
         });
 
         $("#member_btn").on("click", function() {
@@ -181,7 +183,6 @@
         });
 
         $("#project_details").dataTable({
-        
             "bProcessing": true,
             "sAjaxSource": "<?php echo base_url() ?>account/projects",
         });
@@ -197,7 +198,7 @@
         });
 
 
-        
+
 
     });
 </script>

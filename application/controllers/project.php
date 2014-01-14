@@ -95,6 +95,14 @@ class Project extends CI_Controller {
     }
 
     public function create() {
+        
+        try {
+            if ($this->session->userdata('contact_type') != 1) {
+               throw new Exception();
+            } 
+        } catch (Exception $e) {
+            show_404();
+        }
         $data["title"] = "SAB | Project Create";
         $data["container"] = "project/create";
         $data["menu"] = $this->accounts_model->loadMenu();

@@ -12,6 +12,7 @@ class Account extends CI_Controller {
 
         $this->load->model("accounts_model");
         $this->load->model("company_model");
+        $this->load->model("task_model");
         
     }
 
@@ -212,8 +213,39 @@ class Account extends CI_Controller {
 
     public function tasks() {
         header("content-type: application/json");
+        
+        $rs = $this->task_model->getTasks($this->session->userdata('login_id'));
+        
+        $dataArray = array();
+        foreach ($rs as $rows) {
 
-        echo json_encode($this->accounts_model->getTasks($this->session->userdata('login_id')));
+            $projectName = "<a href='#'>" . $rows->projectName . "</a>";
+            $taskName = "<a href='#'>" . $rows->taskName . "</a>";
+             if($rows->dueDateFormated < 0 ){
+                $overdue = "label-important";
+                $dticon = "<i class='icon-bolt'></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+            } else {
+                $overdue =  "label-info";
+                $dticon = ($rows->category == "Completed")?"<i class='icon-ok'></i>&nbsp;&nbsp;":"<i class='icon-share-alt'></i>&nbsp;&nbsp;";
+            }
+            
+            
+            $startDate = '<span class="label  label-large label-info "><i class="fa fa-location-arrow"></i>&nbsp;&nbsp;'.$rows->dateStart.'</span>';
+            $dueDate = '<span class="label  label-large  '.$overdue.'" >'.$dticon.$rows->dueDate.'</span>';
+            
+
+
+
+
+
+            $dataArray[] = array($taskName, $projectName, $startDate, $dueDate);
+        }
+
+         
+        
+        
+        
+        echo json_encode(array("aaData" => $dataArray));
     }
     
      public function members() {

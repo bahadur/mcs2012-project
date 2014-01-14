@@ -13,16 +13,20 @@ class Project_model extends CI_Model {
                             project.categoryid,
                             project.managerid,
                             project.clientaccess,
-                            date_format(project.dateStart,'%Y-%m-%d') fstartdate,
+                            date_format(project.dateStart, '%b %D, %Y') fstartdate,
                             date_format(project.dateStart,'%H:%i:%s') fstarttime,
-                            date_format(project.dueDate,'%Y-%m-%d') fduedate,
+                            date_format(project.dueDate,'%b %D, %Y') fduedate,
                             date_format(project.dueDate,'%H:%i:%s') fduetime,
                             project.priority,
                             project.timeAllocated,
                             project.qoutedPrice,
                             project.invoicePrice,
-                            project.description", FALSE);
+                            project.description,
+                            project_category.category,
+                            priority.priority", FALSE);
         $this->db->from("project");
+        $this->db->join("project_category","project_category.projectCategoryid = project.categoryid");
+        $this->db->join("priority","priority.priorityid = project.priority");
         $this->db->where("md5(projectid)",$projectid);
         $rs = $this->db->get()->result();
         return $rs;
@@ -62,15 +66,18 @@ class Project_model extends CI_Model {
 
 
         $rs = $this->db->get()->result();
-      
+        
         $dataArray = array();
         foreach ($rs as $rows) {
-            $this->db->select("count(contactid) countmembers");
+            $this->db->select("*");
             $this->db->from("project_memebers");
             $this->db->where("projectid",$rows->projectid);
+            $this->db->group_by("projectid, contactid");
+            
             
             $rsmembers = $this->db->get()->result();
-            $countmemebers = $rsmembers[0]->countmembers;
+            //echo $this->db->last_query(); 
+            $countmemebers = count($rsmembers);
 
             $projectName = "<a href='".base_url()."project/detail/".md5($rows->projectid)."'>" . $rows->projectName . "</a>";
             
@@ -161,6 +168,7 @@ class Project_model extends CI_Model {
                                 and contactid not in (SELECT contactid from project_memebers where md5(projectid) != '".$projectid."'))");
         
         $result = $rs->result();
+        
         $data = array();
         foreach ($result as $value) {
             $data[$value->contactid] = $value->firstName . " " . $value->lastName;
@@ -248,7 +256,9 @@ class Project_model extends CI_Model {
         $this->db->select("project_memebers.contactid");
         $this->db->from("project_memebers");
         $this->db->where("md5(project_memebers.projectid)",$projectid);
+        $this->db->group_by("projectid, contactid");
         $rs = $this->db->get()->result();
+        
         $data = array();
         foreach ($rs as $v){
             $data[] = $v->contactid;

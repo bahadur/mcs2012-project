@@ -45,5 +45,12 @@ class Home extends CI_Controller
 
     }
     
+    public function _404(){
+        $data['menu'] = $this->accounts_model->loadMenu();
+        $data["title"] = "404 Error | SAB";
+        $data['container'] = '_404';
+        $this->load->view("layout/template", $data);
+    }
+    
     
 }

@@ -318,46 +318,7 @@ class Accounts_model extends CI_Model {
         return array("aaData" => $dataArray);
     }
 
-    public function getTasks($contactid) {
-
-        $this->db->select("project.`name` as 'projectName',
-                          task.taskName ,
-                          date_format(project.dateStart, '%b %D, %Y') dateStart,
-                          date_format(project.dueDate, '%b %D, %Y') dueDate, 
-                          TIMEDIFF(project.dueDate, NOW()) dueDateFormated", false);
-        $this->db->from("task");
-        $this->db->join("project", "task.projectid = project.projectid");
-        $this->db->where("project.managerid", $contactid);
-
-        $rs = $this->db->get()->result();
-
-        $dataArray = array();
-        foreach ($rs as $rows) {
-
-            $projectName = "<a href='#'>" . $rows->projectName . "</a>";
-            $taskName = "<a href='#'>" . $rows->taskName . "</a>";
-             if($rows->dueDateFormated < 0 ){
-                $overdue = "label-important";
-                $dticon = "<i class='icon-bolt'></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-            } else {
-                $overdue =  "label-info";
-                $dticon = ($rows->category == "Completed")?"<i class='icon-ok'></i>&nbsp;&nbsp;":"<i class='icon-share-alt'></i>&nbsp;&nbsp;";
-            }
-            
-            
-            $startDate = '<span class="label  label-large label-info "><i class="fa fa-location-arrow"></i>&nbsp;&nbsp;'.$rows->dateStart.'</span>';
-            $dueDate = '<span class="label  label-large  '.$overdue.'" >'.$dticon.$rows->dueDate.'</span>';
-            
-
-
-
-
-
-            $dataArray[] = array($taskName, $projectName, $startDate, $dueDate);
-        }
-
-        return array("aaData" => $dataArray);
-    }
+    
     
     
     public function getMembers($contactid){
