@@ -29,6 +29,7 @@ class Project_model extends CI_Model {
         $this->db->join("priority","priority.priorityid = project.priority");
         $this->db->where("md5(projectid)",$projectid);
         $rs = $this->db->get()->result();
+        
         return $rs;
         
     }

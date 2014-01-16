@@ -75,10 +75,10 @@ class Task extends CI_Controller {
     }
     
     
-    public function tasks() {
+    public function tasks($projectid = "") {
         header("content-type: application/json");
         
-        $rs = $this->task_model->getTasks($this->session->userdata('login_id'));
+        $rs = $this->task_model->getTasks($this->session->userdata('login_id'), $projectid);
         
         $dataArray = array();
         foreach ($rs as $rows) {
