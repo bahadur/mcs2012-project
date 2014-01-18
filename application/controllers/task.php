@@ -115,6 +115,13 @@ class Task extends CI_Controller {
         echo json_encode(array("aaData" => $dataArray));
     }
     
+    
+    public function update(){
+       
+        echo $this->task_model->update();
+        
+        
+    }
 }
 
 ?>

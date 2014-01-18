@@ -33,6 +33,36 @@ class Task_model extends CI_Model {
         
         return $rs; 
     }
+    
+    
+    public function update(){
+        $data = array(
+                'taskName' => $this->input->post("task"),
+                'order' => '1' ,
+                'taskStyle' => '1',
+                'description' => $this->input->post("description"),
+                'startDate' => $this->input->post("startDate"),
+                'dueDate' => $this->input->post("endDate"),
+                'dateComplete' => '0',
+                'timeAllocate' => null,
+                'priority' => '1',
+                'status' => '1'
+            
+             );
+
+        $this->db->insert('task', $data); 
+        $taskid = $this->db->insert_id();
+        
+        $data = array(
+            'projectid' => $this->input->post("projectid"),
+            'contactid' =>  $this->input->post("member"),
+            'taskid'  =>  $taskid
+        );
+         $this->db->insert('project_memebers', $data); 
+        
+        return 1;
+        
+    }
 }
 
 ?>

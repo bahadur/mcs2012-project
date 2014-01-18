@@ -270,11 +270,12 @@ foreach($project_tasks as $tasks){
             select: function(start, end, allDay) {
 
                 
-                if(start < start_date || end > end_date){
+                if(start > start_date && end < end_date){
                     //bootbox.alert("Please select within the range.");
                     
                     
                     <?php 
+                   
                     $frm = "<div class='control-group info>";
                         $frm .= "<lable class='control-lable' for='member'>Member</lable>";
                             $frm .= "<div class='controls'>";
@@ -299,44 +300,52 @@ foreach($project_tasks as $tasks){
                     $frm .= "</div>";
                     
                     $frm .= "<div class='control-group info>";
-                        $frm .= "<lable class='control-lable' for='startDate'>Start</lable>";
+                        $frm .= "<lable class='control-lable' for='task'>Description</lable>";
                             $frm .= "<div class='controls'>";
                                 $frm .= "<div class='btn-group'>";
-                                $frm .= "<input name='startDate' id='startDate' />";
+                                $frm .= "<textarea name='description' id='description' ></textarea>";
                                 $frm .= "</div>";
                         $frm .= "</div>";
                     $frm .= "</div>";
                     
-                    $frm .= "<div class='control-group info>";
-                        $frm .= "<lable class='control-lable' for='dueDate'>Due</lable>";
-                            $frm .= "<div class='controls'>";
-                                $frm .= "<div class='btn-group'>";
-                                $frm .= "<input name='dueDate' id='dueDate' />";
-                                $frm .= "</div>";
-                        $frm .= "</div>";
-                    $frm .= "</div>";
+                   
                     
+                   
+                    
+                        
                     ?>
                     
-                    bootbox.confirm("<?php echo $frm?>", function(result) {
-                        if(result)
-                            $('#infos').submit();
+                    bootbox.confirm("<form id='frm_task'><h4 class='lighter'>"+start.getDate()+"-"+(start.getMonth()+1)+"-"+start.getFullYear()+" to "+end.getDate()+"-"+(end.getMonth()+1)+"-"+end.getFullYear()+"</h4>"+"<?php echo $frm?>"+"<input type='hidden' name='projectid' value='"+<?php echo $projects_detail[0]->projectid ?>+"' /><input type='hidden' name='startDate' value='"+start.getFullYear()+"-"+(start.getMonth()+1)+"-"+start.getDate()+"' /><input type='hidden' name='endDate' value='"+end.getFullYear()+"-"+(end.getMonth()+1)+"-"+end.getDate()+"' /></form>", function(result) {
+                        if(result){
+                            
+                                        
+                            $.ajax({
+                                dataType: 'html',
+                                type: 'post',
+                                url: '<?php echo base_url('task/update') ?>',
+                                data: $("#frm_task").serialize(),
+                                success: function(responseData) {
+                                    if (responseData == 1) {
+                                        
+                                        
+
+
+                                    }
+                                    else {
+                                        bootbox.alert("Could not update record");
+                                    }
+                                },
+                                error: function(responseData) {
+                                    bootbox.alert('Ajax request not recieved! ');
+                                }
+                            });
+                           
+                           
+                        }
                 });
                    
                 } else {
-                bootbox.prompt("New Task:", function(title) {
-                    if (title !== null) {
-                        calendar.fullCalendar('renderEvent',
-                                {
-                                    title: title,
-                                    start: start,
-                                    end: end,
-                                    allDay: allDay
-                                },
-                        true // make the event "stick"
-                                );
-                    }
-                });
+                bootbox.alert("Please selecte date in project range");
                 }
 
                 calendar.fullCalendar('unselect');
@@ -395,6 +404,11 @@ foreach($project_tasks as $tasks){
             }
 
         });
+        
+        
+        
+       
+
 
     });
 </script>
