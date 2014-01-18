@@ -64,50 +64,28 @@
                 <div class="span3">
                     <div class="widget-box transparent">
                         <div class="widget-header">
-                            <h4>Draggable events</h4>
+                            <h4>Team Members</h4>
                         </div>
 
                         <div class="widget-main">
                             <div id="external-events">
-                                <div class="external-event label-grey" data-class="label-grey">
-                                    <i class="icon-move"></i>
-                                    My Event 1
-                                </div>
-
-                                <div class="external-event label-success" data-class="label-success">
-                                    <i class="icon-move"></i>
-                                    My Event 2
-                                </div>
-
-                                <div class="external-event label-important" data-class="label-important">
-                                    <i class="icon-move"></i>
-                                    My Event 3
-                                </div>
-
-                                <div class="external-event label-purple" data-class="label-purple">
-                                    <i class="icon-move"></i>
-                                    My Event 4
-                                </div>
-
-                                <div class="external-event label-yellow" data-class="label-yellow">
-                                    <i class="icon-move"></i>
-                                    My Event 5
-                                </div>
-
-                                <div class="external-event label-pink" data-class="label-pink">
-                                    <i class="icon-move"></i>
-                                    My Event 6
-                                </div>
-
+                                <?php 
+                               
+                                foreach ($projectMembers as $members){ 
+//                                    label-grey    
+//                                    label-success
+//                                    label-important
+//                                    label-important
+//                                    label-yellow
+//                                    label-pink
+//                                    label-info
+                                ?>
                                 <div class="external-event label-info" data-class="label-info">
                                     <i class="icon-move"></i>
-                                    My Event 7
+                                    <?php echo $members->firstName?> <?php echo $members->lastName?> [Tasks: <?php echo $members->tasks_count?> ]
                                 </div>
+                                <?php }?>
 
-                                <label>
-                                    <input type="checkbox" class="ace-checkbox" id="drop-remove" />
-                                    <span class="lbl"> Remove after drop</span>
-                                </label>
                             </div>
                         </div>
                     </div>
@@ -161,8 +139,39 @@
 
 </div>
 </div>
+
+<?php 
+
+
+
+$js_events = "";
+$js_evdates = "";
+foreach($project_tasks as $tasks){
+    
+    $js_evdates .= " var task_".$tasks->taskid."_start_date = new Date('".$tasks->dateStart."');\n\n";
+    
+    $js_evdates .= " var task_".$tasks->taskid."_sd = task_".$tasks->taskid."_start_date.getDate();\n";
+    $js_evdates .= " var task_".$tasks->taskid."_sm = task_".$tasks->taskid."_start_date.getMonth();\n";
+    $js_evdates .= " var task_".$tasks->taskid."_sy = task_".$tasks->taskid."_start_date.getFullYear();\n\n";
+    
+    $js_evdates .= " var task_".$tasks->taskid."_end_date = new Date('".$tasks->dueDate."');\n\n";
+    $js_evdates .= " var task_".$tasks->taskid."_ed = task_".$tasks->taskid."_end_date.getDate();\n";
+    $js_evdates .= " var task_".$tasks->taskid."_em = task_".$tasks->taskid."_end_date.getMonth();\n";
+    $js_evdates .= " var task_".$tasks->taskid."_ey = task_".$tasks->taskid."_end_date.getFullYear();\n";
+    
+    $js_events .=  ",{\n";
+    $js_events .=  "\ttitle: '".$tasks->taskName."',\n";
+    $js_events .=  "\tstart: new Date(task_".$tasks->taskid."_sy, task_".$tasks->taskid."_sm, task_".$tasks->taskid."_sd),\n";
+    $js_events .=  "\tend: new Date(task_".$tasks->taskid."_ey, task_".$tasks->taskid."_em, task_".$tasks->taskid."_ed),\n";
+    $js_events .=  "\tclassName: 'label-info'\n";
+    $js_events .=  "}\n";
+                }
+                ?>
 <script>
     $(function() {
+        
+        
+
         $("#tasks").dataTable({
             "bProcessing": true,
             "sAjaxSource": "<?php echo base_url() ?>task/tasks/" +<?php echo $projects_detail[0]->projectid ?>
@@ -192,12 +201,20 @@
 		
 	});
 
-        var date = new Date();
-        var d = date.getDate();
-        var m = date.getMonth();
-        var y = date.getFullYear();
-
+        var start_date = new Date('<?php echo $projects_detail[0]->fstartdate ?> <?php echo $projects_detail[0]->fstarttime ?>');
+        var sd = start_date.getDate();
+        var sm = start_date.getMonth();
+        var sy = start_date.getFullYear();
+        
+        var end_date = new Date('<?php echo $projects_detail[0]->fduedate ?> <?php echo $projects_detail[0]->fduetime ?>');
+        var ed = end_date.getDate();
+        var em = end_date.getMonth();
+        var ey = end_date.getFullYear();
+        
+        <?php echo $js_evdates?>
         var calendar = $('#calendar').fullCalendar({
+            month: sm,
+            year: sy,
             buttonText: {
                 prev: '<i class="icon-chevron-left"></i>',
                 next: '<i class="icon-chevron-right"></i>'
@@ -208,58 +225,106 @@
                 right: 'month,agendaWeek,agendaDay'
             },
             events: [
+                
                 {
-                    title: 'All Day Event',
-                    start: new Date(y, m, 1),
-                    className: 'label-important'
-                },
-                {
-                    title: 'Long Event',
-                    start: new Date(y, m, d - 5),
-                    end: new Date(y, m, d - 2),
+                    title: '<?php echo $projects_detail[0]->name?>',
+                    start: new Date(sy, sm, sd),
+                    end: new Date(ey, em, ed),
                     className: 'label-success'
-                },
-                {
-                    title: 'Some Event',
-                    start: new Date(y, m, d - 3, 16, 0),
-                    allDay: false
-                }]
-                    ,
+                }
+                <?php echo $js_events?>
+                
+                
+                ],
             editable: true,
             droppable: true, // this allows things to be dropped onto the calendar !!!
             drop: function(date, allDay) { // this function is called when something is dropped
-
-                // retrieve the dropped element's stored Event Object
-                var originalEventObject = $(this).data('eventObject');
-                var $extraEventClass = $(this).attr('data-class');
-
-
-                // we need to copy it, so that multiple events don't have a reference to the same object
-                var copiedEventObject = $.extend({}, originalEventObject);
-
-                // assign it the date that was reported
-                copiedEventObject.start = date;
-                copiedEventObject.allDay = allDay;
-                if ($extraEventClass)
-                    copiedEventObject['className'] = [$extraEventClass];
-
-                // render the event on the calendar
-                // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-                $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-
-                // is the "remove after drop" checkbox checked?
-                if ($('#drop-remove').is(':checked')) {
-                    // if so, remove the element from the "Draggable Events" list
-                    $(this).remove();
-                }
-
-            }
-            ,
+		
+			// retrieve the dropped element's stored Event Object
+			var originalEventObject = $(this).data('eventObject');
+			var $extraEventClass = $(this).attr('data-class');
+			
+			
+			// we need to copy it, so that multiple events don't have a reference to the same object
+			var copiedEventObject = $.extend({}, originalEventObject);
+			
+			// assign it the date that was reported
+			copiedEventObject.start = date;
+			copiedEventObject.allDay = allDay;
+			if($extraEventClass) copiedEventObject['className'] = [$extraEventClass];
+			
+			// render the event on the calendar
+			// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+			$('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
+			
+			// is the "remove after drop" checkbox checked?
+			if ($('#drop-remove').is(':checked')) {
+				// if so, remove the element from the "Draggable Events" list
+				$(this).remove();
+			}
+			
+		},
+            
             selectable: true,
             selectHelper: true,
             select: function(start, end, allDay) {
 
-                bootbox.prompt("New Event Title:", function(title) {
+                
+                if(start < start_date || end > end_date){
+                    //bootbox.alert("Please select within the range.");
+                    
+                    
+                    <?php 
+                    $frm = "<div class='control-group info>";
+                        $frm .= "<lable class='control-lable' for='member'>Member</lable>";
+                            $frm .= "<div class='controls'>";
+                                $frm .= "<div class='btn-group'>";
+                                $frm .= "<select name='member'>";
+                                 foreach ($projectMembers as $members){ 
+                                    $frm .= "<option value='".$members->contactid."'>".$members->firstName."</option>";
+
+                                 }
+                                $frm .= "</select>";
+                                $frm .= "</div>";
+                        $frm .= "</div>";
+                    $frm .= "</div>";
+                    
+                    $frm .= "<div class='control-group info>";
+                        $frm .= "<lable class='control-lable' for='task'>Task</lable>";
+                            $frm .= "<div class='controls'>";
+                                $frm .= "<div class='btn-group'>";
+                                $frm .= "<input name='task' id='task' />";
+                                $frm .= "</div>";
+                        $frm .= "</div>";
+                    $frm .= "</div>";
+                    
+                    $frm .= "<div class='control-group info>";
+                        $frm .= "<lable class='control-lable' for='startDate'>Start</lable>";
+                            $frm .= "<div class='controls'>";
+                                $frm .= "<div class='btn-group'>";
+                                $frm .= "<input name='startDate' id='startDate' />";
+                                $frm .= "</div>";
+                        $frm .= "</div>";
+                    $frm .= "</div>";
+                    
+                    $frm .= "<div class='control-group info>";
+                        $frm .= "<lable class='control-lable' for='dueDate'>Due</lable>";
+                            $frm .= "<div class='controls'>";
+                                $frm .= "<div class='btn-group'>";
+                                $frm .= "<input name='dueDate' id='dueDate' />";
+                                $frm .= "</div>";
+                        $frm .= "</div>";
+                    $frm .= "</div>";
+                    
+                    ?>
+                    
+                    bootbox.confirm("<?php echo $frm?>", function(result) {
+                        if(result)
+                            $('#infos').submit();
+                });
+                   
+                } else {
+                bootbox.prompt("New Task:", function(title) {
                     if (title !== null) {
                         calendar.fullCalendar('renderEvent',
                                 {
@@ -272,12 +337,14 @@
                                 );
                     }
                 });
-
+                }
 
                 calendar.fullCalendar('unselect');
 
             }
             ,
+            
+            
             eventClick: function(calEvent, jsEvent, view) {
 
                 var form = $("<form class='form-inline'><label>Change event name &nbsp;</label></form>");

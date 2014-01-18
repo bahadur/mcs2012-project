@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50516
 File Encoding         : 65001
 
-Date: 2014-01-11 18:52:12
+Date: 2014-01-18 18:55:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -306,7 +306,8 @@ CREATE TABLE `project` (
   `managerid` int(11) NOT NULL,
   `clientaccess` int(11) NOT NULL,
   `dateStart` datetime NOT NULL,
-  `dueDate` datetime DEFAULT NULL,
+  `dueDate` datetime NOT NULL,
+  `dateComplete` datetime DEFAULT NULL,
   `priority` int(11) NOT NULL,
   `timeAllocated` time DEFAULT NULL,
   `qoutedPrice` int(50) DEFAULT NULL,
@@ -318,12 +319,12 @@ CREATE TABLE `project` (
 -- ----------------------------
 -- Records of project
 -- ----------------------------
-INSERT INTO `project` VALUES ('1', 'ERP', '1', '6', '0', '2013-10-10 09:47:45', '2013-10-31 09:47:50', '1', null, null, null, '');
-INSERT INTO `project` VALUES ('2', 'Website', '1', '2', '1', '2013-10-10 09:47:45', '2013-10-31 09:47:50', '1', null, null, null, null);
-INSERT INTO `project` VALUES ('3', 'Iphone development', '2', '6', '0', '2013-10-10 09:47:45', '2013-10-31 09:47:50', '1', null, null, null, '');
-INSERT INTO `project` VALUES ('4', 'Android Development', '3', '6', '0', '2013-10-10 09:47:45', '2013-10-31 09:47:50', '1', null, null, null, '');
-INSERT INTO `project` VALUES ('7', 'Wesite for stocks', '4', '6', '1', '2013-11-28 18:09:00', '2013-12-28 18:09:00', '2', null, null, null, 'First website for stocks');
-INSERT INTO `project` VALUES ('18', 'Web Marketing', '1', '7', '0', '2014-01-08 12:15:15', '2014-02-12 12:15:15', '2', null, null, null, '');
+INSERT INTO `project` VALUES ('1', 'ERP', '1', '6', '0', '2014-01-01 09:47:45', '2014-01-26 09:47:50', null, '1', null, null, null, '');
+INSERT INTO `project` VALUES ('2', 'Website', '1', '2', '1', '2013-12-26 09:47:45', '2014-01-31 09:47:50', null, '1', null, null, null, null);
+INSERT INTO `project` VALUES ('3', 'Iphone development', '2', '6', '0', '2014-01-12 09:47:45', '2014-02-11 09:47:50', null, '1', null, null, null, '');
+INSERT INTO `project` VALUES ('4', 'Android Development', '3', '6', '0', '2013-12-25 09:47:45', '2014-02-05 09:47:50', null, '1', null, null, null, '');
+INSERT INTO `project` VALUES ('7', 'Wesite for stocks', '4', '6', '1', '2014-01-04 18:09:00', '2014-02-28 18:09:00', null, '2', null, null, null, 'First website for stocks');
+INSERT INTO `project` VALUES ('18', 'Web Marketing', '1', '7', '0', '2014-01-08 12:15:15', '2014-02-12 12:15:15', null, '2', null, null, null, '');
 
 -- ----------------------------
 -- Table structure for `project_category`
@@ -358,11 +359,11 @@ CREATE TABLE `project_memebers` (
 -- ----------------------------
 -- Records of project_memebers
 -- ----------------------------
-INSERT INTO `project_memebers` VALUES ('13', '4', '3', '0');
+INSERT INTO `project_memebers` VALUES ('13', '4', '3', '5');
 INSERT INTO `project_memebers` VALUES ('17', '3', '11', '4');
 INSERT INTO `project_memebers` VALUES ('18', '7', '5', '3');
 INSERT INTO `project_memebers` VALUES ('19', '1', '2', '1');
-INSERT INTO `project_memebers` VALUES ('20', '1', '2', '2');
+INSERT INTO `project_memebers` VALUES ('20', '1', '3', '2');
 
 -- ----------------------------
 -- Table structure for `role`
@@ -388,26 +389,27 @@ INSERT INTO `role` VALUES ('4', 'Client');
 DROP TABLE IF EXISTS `task`;
 CREATE TABLE `task` (
   `taskid` int(11) NOT NULL AUTO_INCREMENT,
-  `projectid` int(11) NOT NULL,
   `taskName` varchar(225) NOT NULL,
   `order` float(10,5) DEFAULT NULL,
   `taskStyle` varchar(50) NOT NULL,
   `description` mediumtext,
   `startDate` datetime NOT NULL,
-  `timeAllocate` varchar(50) DEFAULT NULL,
   `dueDate` datetime DEFAULT NULL,
+  `dateComplete` datetime DEFAULT NULL,
+  `timeAllocate` varchar(50) DEFAULT NULL,
   `priority` varchar(100) DEFAULT NULL,
   `status` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`taskid`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of task
 -- ----------------------------
-INSERT INTO `task` VALUES ('1', '3', 'Initial Design layout', '1.00000', '1', null, '2013-10-11 09:47:45', null, '2013-10-22 09:47:45', '1', '1');
-INSERT INTO `task` VALUES ('2', '4', 'Wireframe desing', '1.00000', '1', null, '2013-10-10 09:47:45', null, '2013-10-15 09:47:45', '1', '1');
-INSERT INTO `task` VALUES ('3', '1', 'abc', '1.00000', '1', null, '2014-01-11 18:45:06', null, '2014-01-25 18:45:14', '1', '1');
-INSERT INTO `task` VALUES ('4', '7', 'xyz', '1.00000', '1', null, '2014-01-11 18:45:46', null, '2014-01-29 18:45:49', '1', '1');
+INSERT INTO `task` VALUES ('1', 'Initial Design layout', '1.00000', '1', null, '2014-01-12 09:47:45', '2014-01-14 09:47:45', '0000-00-00 00:00:00', null, '1', '1');
+INSERT INTO `task` VALUES ('2', 'Wireframe desing', '1.00000', '1', null, '2014-01-12 09:47:45', '2014-01-25 09:47:45', '0000-00-00 00:00:00', null, '1', '1');
+INSERT INTO `task` VALUES ('3', 'abc', '1.00000', '1', null, '2014-01-11 18:45:06', '2014-01-25 18:45:14', '0000-00-00 00:00:00', null, '1', '1');
+INSERT INTO `task` VALUES ('4', 'xyz', '1.00000', '1', null, '2013-12-28 18:45:46', '2014-01-29 18:45:49', '0000-00-00 00:00:00', null, '1', '1');
+INSERT INTO `task` VALUES ('5', 'an other', '1.00000', '1', '1', '2013-12-30 17:59:52', '2014-01-30 17:59:58', null, null, '1', '1');
 
 -- ----------------------------
 -- Table structure for `task_style`

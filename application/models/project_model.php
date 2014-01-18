@@ -13,9 +13,9 @@ class Project_model extends CI_Model {
                             project.categoryid,
                             project.managerid,
                             project.clientaccess,
-                            date_format(project.dateStart, '%b %D, %Y') fstartdate,
+                            date_format(project.dateStart, '%M %e, %Y') fstartdate,
                             date_format(project.dateStart,'%H:%i:%s') fstarttime,
-                            date_format(project.dueDate,'%b %D, %Y') fduedate,
+                            date_format(project.dueDate,'%M %e, %Y') fduedate,
                             date_format(project.dueDate,'%H:%i:%s') fduetime,
                             project.priority,
                             project.timeAllocated,
@@ -254,7 +254,7 @@ class Project_model extends CI_Model {
     }
     
     public function getTeamMembersIds($projectid){
-        $this->db->select("project_memebers.contactid");
+        $this->db->select("contactid");
         $this->db->from("project_memebers");
         $this->db->where("md5(project_memebers.projectid)",$projectid);
         $this->db->group_by("projectid, contactid");
@@ -266,6 +266,15 @@ class Project_model extends CI_Model {
          }
         
         return $data;
+    }
+    
+    public function getProjectMembersById($projectid){
+        $this->db->select("*, count(project_memebers.taskid) tasks_count");
+        $this->db->from("project_memebers");
+        $this->db->where("md5(project_memebers.projectid)",$projectid);
+        $this->db->join("contact", "project_memebers.contactid = contact.contactid");
+        $this->db->group_by("project_memebers.projectid, project_memebers.contactid");
+        return $this->db->get()->result();
     }
 
 }

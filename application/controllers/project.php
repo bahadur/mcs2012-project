@@ -13,6 +13,7 @@ class Project extends CI_Controller {
         $this->load->model("accounts_model");
         $this->load->model("company_model");
         $this->load->model("project_model");
+        $this->load->model("task_model");
 
         if (!$this->session->userdata("login_id")) {
             redirect(base_url() . "account");
@@ -52,7 +53,11 @@ class Project extends CI_Controller {
         if(empty($data["teamMemberid"])){
             $data["teamMemberid"] = array(-1,-2);
         }
+        
+        $data['projectMembers'] = $this->project_model->getProjectMembersById($projectid);
         $data['projects_detail'] = $this->project_model->getProjectsById($projectid);
+        
+        $data['project_tasks'] = $this->task_model->getTasks($this->session->userdata('login_id'), $data['projects_detail'][0]->projectid);
         
         $this->load->view("layout/template", $data);
     }
