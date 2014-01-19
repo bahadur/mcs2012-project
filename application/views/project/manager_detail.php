@@ -8,12 +8,12 @@
                 <?php echo $projects_detail[0]->name ?>
                 <small>
                     <i class="icon-double-angle-right"></i>
-                    3 styles with inline editable feature
+                    <?php echo $projects_detail[0]->description ?>
                 </small>
             </h1>
         </div><!--/.page-header-->
 
-        <div class="well well-small"> <?php echo $projects_detail[0]->description ?> </div>
+       
 
         <div class="row-fluid">
             <div class="span12">
@@ -48,6 +48,33 @@
 
                         <div class="profile-info-value">
                             <span id="priority"><?php echo $projects_detail[0]->priority ?></span>
+                        </div>
+                    </div>
+                    
+                     <div class="profile-info-row">
+                        <div class="profile-info-name"> Members </div>
+
+                        <div class="profile-info-value">
+                            <span id="members"><?php echo count($projectMembers) ?></span>
+                        </div>
+                    </div>
+                    
+                     <div class="profile-info-row">
+                        <div class="profile-info-name"> Tasks </div>
+
+                        <div class="profile-info-value">
+                            <span id="project_tasks"><?php echo count($project_tasks) ?></span>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-info-row">
+                        <div class="profile-info-name"> Action </div>
+
+                        <div class="profile-info-value">
+                            <span id="action"><button class="btn btn-info" disabled="disabled" >Complete</button></span>
+                            <span id="action"><button class="btn btn-danger" >Hold</button></span>
+                            <span id="action"><button class="btn" >Cancel</button></span>
+                            
                         </div>
                     </div>
 
@@ -227,15 +254,17 @@ foreach($project_tasks as $tasks){
             events: [
                 
                 {
-                    title: '<?php echo $projects_detail[0]->name?>',
+                    title: '<?php echo $projects_detail[0]->name?> <?php echo $projects_detail[0]->description?>',
                     start: new Date(sy, sm, sd),
                     end: new Date(ey, em, ed),
                     className: 'label-success'
+                    
                 }
                 <?php echo $js_events?>
                 
                 
                 ],
+            
             editable: true,
             droppable: true, // this allows things to be dropped onto the calendar !!!
             drop: function(date, allDay) { // this function is called when something is dropped
@@ -270,7 +299,7 @@ foreach($project_tasks as $tasks){
             select: function(start, end, allDay) {
 
                 
-                if(start > start_date && end < end_date){
+                if(start >= start_date && start <= end_date){
                     //bootbox.alert("Please select within the range.");
                     
                     
@@ -280,7 +309,7 @@ foreach($project_tasks as $tasks){
                         $frm .= "<lable class='control-lable' for='member'>Member</lable>";
                             $frm .= "<div class='controls'>";
                                 $frm .= "<div class='btn-group'>";
-                                $frm .= "<select name='member'>";
+                                $frm .= "<select name='member' id='newMember'>";
                                  foreach ($projectMembers as $members){ 
                                     $frm .= "<option value='".$members->contactid."'>".$members->firstName."</option>";
 
@@ -294,7 +323,7 @@ foreach($project_tasks as $tasks){
                         $frm .= "<lable class='control-lable' for='task'>Task</lable>";
                             $frm .= "<div class='controls'>";
                                 $frm .= "<div class='btn-group'>";
-                                $frm .= "<input name='task' id='task' />";
+                                $frm .= "<input name='task' id='newTask' />";
                                 $frm .= "</div>";
                         $frm .= "</div>";
                     $frm .= "</div>";
@@ -303,7 +332,7 @@ foreach($project_tasks as $tasks){
                         $frm .= "<lable class='control-lable' for='task'>Description</lable>";
                             $frm .= "<div class='controls'>";
                                 $frm .= "<div class='btn-group'>";
-                                $frm .= "<textarea name='description' id='description' ></textarea>";
+                                $frm .= "<textarea name='description' id='newDescription' ></textarea>";
                                 $frm .= "</div>";
                         $frm .= "</div>";
                     $frm .= "</div>";
@@ -315,7 +344,7 @@ foreach($project_tasks as $tasks){
                         
                     ?>
                     
-                    bootbox.confirm("<form id='frm_task'><h4 class='lighter'>"+start.getDate()+"-"+(start.getMonth()+1)+"-"+start.getFullYear()+" to "+end.getDate()+"-"+(end.getMonth()+1)+"-"+end.getFullYear()+"</h4>"+"<?php echo $frm?>"+"<input type='hidden' name='projectid' value='"+<?php echo $projects_detail[0]->projectid ?>+"' /><input type='hidden' name='startDate' value='"+start.getFullYear()+"-"+(start.getMonth()+1)+"-"+start.getDate()+"' /><input type='hidden' name='endDate' value='"+end.getFullYear()+"-"+(end.getMonth()+1)+"-"+end.getDate()+"' /></form>", function(result) {
+                    bootbox.confirm("<form id='frm_task'><h4 class='lighter'>"+start.getDate()+"-"+(start.getMonth()+1)+"-"+start.getFullYear()+" to "+end.getDate()+"-"+(end.getMonth()+1)+"-"+end.getFullYear()+"</h4>"+"<?php echo $frm?>"+"<input type='hidden' name='projectid' id='newProjectid' value='"+<?php echo $projects_detail[0]->projectid ?>+"' /><input type='hidden' name='startDate' id='newStartDate' value='"+start.getFullYear()+"-"+(start.getMonth()+1)+"-"+start.getDate()+"' /><input type='hidden' name='endDate' id='newEndDate' value='"+end.getFullYear()+"-"+(end.getMonth()+1)+"-"+end.getDate()+"' /></form>", function(result) {
                         if(result){
                             
                                         
@@ -326,8 +355,15 @@ foreach($project_tasks as $tasks){
                                 data: $("#frm_task").serialize(),
                                 success: function(responseData) {
                                     if (responseData == 1) {
-                                        
-                                        
+                                       
+                                         var newEvent = {
+                                            title: $("#newTask").val(),
+                                            allDay: false,
+                                            start: start,
+                                            end: end,
+                                          };
+                            
+                                           $('#calendar').fullCalendar('renderEvent', newEvent,true);
 
 
                                     }
@@ -339,6 +375,9 @@ foreach($project_tasks as $tasks){
                                     bootbox.alert('Ajax request not recieved! ');
                                 }
                             });
+                            
+                           
+                               
                            
                            
                         }
@@ -363,7 +402,7 @@ foreach($project_tasks as $tasks){
                 var div = bootbox.dialog(form,
                         [
                             {
-                                "label": "<i class='icon-trash'></i> Delete Event",
+                                "label": "<i class='icon-trash'></i> Hold",
                                 "class": "btn-small btn-danger",
                                 "callback": function() {
                                     calendar.fullCalendar('removeEvents', function(ev) {
@@ -373,7 +412,7 @@ foreach($project_tasks as $tasks){
                             }
                             ,
                             {
-                                "label": "<i class='icon-remove'></i> Close",
+                                "label": "<i class='icon-remove'></i> Cancele",
                                 "class": "btn-small"
                             }
                         ]

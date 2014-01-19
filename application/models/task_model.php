@@ -6,7 +6,7 @@ if (!defined('BASEPATH')) {
 
 class Task_model extends CI_Model {
 
-   public function getTasks($contactid, $projectid="") {
+   public function getTasks($contactid, $projectid="",$status="") {
 
         $this->db->select("task.taskid, project.`name` as 'projectName',
                           task.taskName,  task.description, 
@@ -27,6 +27,8 @@ class Task_model extends CI_Model {
         
         if($projectid != "")
             $this->db->where("project.projectid", $projectid);
+        if($status !="")
+            $this->db->where("status",$status);
         
         $rs = $this->db->get()->result();
         //echo $this->db->last_query();

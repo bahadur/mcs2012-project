@@ -57,7 +57,7 @@ class Project extends CI_Controller {
         $data['projectMembers'] = $this->project_model->getProjectMembersById($projectid);
         $data['projects_detail'] = $this->project_model->getProjectsById($projectid);
         
-        $data['project_tasks'] = $this->task_model->getTasks($this->session->userdata('login_id'), $data['projects_detail'][0]->projectid);
+        $data['project_tasks'] = $this->task_model->getTasks($this->session->userdata('login_id'), $data['projects_detail'][0]->projectid, 1);
         
         $this->load->view("layout/template", $data);
     }
