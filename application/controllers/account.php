@@ -254,5 +254,9 @@ class Account extends CI_Controller {
         
         
     }
+    
+    public function eventimage(){
+        $this->load->view("event");
+    }
 
 }

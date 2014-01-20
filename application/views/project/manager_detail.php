@@ -194,10 +194,15 @@ foreach($project_tasks as $tasks){
     $js_events .=  "}\n";
                 }
                 ?>
+<style>
+       .vacation {
+              background-color:red;
+        }
+</style>
 <script>
     $(function() {
         
-        
+       
 
         $("#tasks").dataTable({
             "bProcessing": true,
@@ -254,10 +259,11 @@ foreach($project_tasks as $tasks){
             events: [
                 
                 {
-                    title: '<?php echo $projects_detail[0]->name?> <?php echo $projects_detail[0]->description?>',
+                    title: '<?php echo $projects_detail[0]->name?>',
                     start: new Date(sy, sm, sd),
                     end: new Date(ey, em, ed),
-                    className: 'label-success'
+                    className: 'label-success',
+                    description: "this is event"
                     
                 }
                 <?php echo $js_events?>
@@ -267,6 +273,23 @@ foreach($project_tasks as $tasks){
             
             editable: true,
             droppable: true, // this allows things to be dropped onto the calendar !!!
+            eventRender: function (event, element, monthView) {
+        
+                if (event.title == "ERP") {
+                            //alert(event.start.getFullYear()+"-"+(event.start.getMonth()+1)+"-"+event.start.getDay());
+
+//                        var one_day = 1000 * 60 * 60 * 24;
+//                        var _Diff = Math.ceil(event.start.getTime() - monthView.visStart.getTime()/ (one_day));
+//                          // alert(_Diff);
+//                          //if(".fc-day").attr('data-date') == "2012-01-05")
+//                        if(event.end <= new Date())  
+//                            alert($(".fc-day").attr('data-date'));
+//                            //$(".fc-day-content").attr({style:"background:red"});  
+//                        var dayClass = ".fc-day" + _Diff;
+//                        //alert(dayClass);
+//                       $(dayClass).addClass('holiday-color');
+                 }
+            },
             drop: function(date, allDay) { // this function is called when something is dropped
 		
 			// retrieve the dropped element's stored Event Object
@@ -296,6 +319,7 @@ foreach($project_tasks as $tasks){
             
             selectable: true,
             selectHelper: true,
+            //eventResizeStop : function(event){ event.className = 'label-important'  }, 
             select: function(start, end, allDay) {
 
                 
@@ -395,6 +419,8 @@ foreach($project_tasks as $tasks){
             
             eventClick: function(calEvent, jsEvent, view) {
 
+                
+                
                 var form = $("<form class='form-inline'><label>Change event name &nbsp;</label></form>");
                 form.append("<input autocomplete=off type=text value='" + calEvent.title + "' /> ");
                 form.append("<button type='submit' class='btn btn-small btn-success'><i class='icon-ok'></i> Save</button>");
@@ -446,7 +472,7 @@ foreach($project_tasks as $tasks){
         
         
         
-       
+        $("div.fc-day-number:contains('8')").parent().find(".fc-day-content").addClass("vacation");
 
 
     });
