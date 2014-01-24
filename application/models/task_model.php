@@ -10,11 +10,12 @@ class Task_model extends CI_Model {
 
         $this->db->select("task.taskid, project.`name` as 'projectName',
                           task.taskName,  task.description, 
-                          contact.firstName, contact.lastName,
+                          contact.contactid,contact.firstName, contact.lastName,
                           priority.priority,
                           project_category.category,
                           date_format(task.startDate, '%M %e, %Y') dateStart,
                           date_format(task.dueDate, '%M %e, %Y') dueDate, 
+                          date_format(task.dateComplete, '%M %e, %Y') dateComplete, 
                           TIMEDIFF(task.dueDate, NOW()) dueDateFormated", false);
         $this->db->from("project");
         $this->db->join("project_memebers", "project.projectid = project_memebers.projectid");

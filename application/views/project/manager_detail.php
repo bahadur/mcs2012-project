@@ -102,7 +102,7 @@
 //                                    label-grey    
 //                                    label-success
 //                                    label-important
-//                                    label-important
+//                                    
 //                                    label-yellow
 //                                    label-pink
 //                                    label-info
@@ -117,6 +117,47 @@
                         </div>
                     </div>
                 </div>
+                
+                <div class="span3">
+                    <div class="widget-box transparent">
+                        <div class="widget-header">
+                            <h4>Specifications</h4>
+                        </div>
+
+                        <div class="widget-main">
+                            <div id="external-events">
+                                <div class="external-event label-success" data-class="label-success">
+                                    <i class="icon-briefcase"></i>
+                                    Project
+                                    
+                                </div>
+                                <div class="external-event label-info" data-class="label-info">
+                                    <i class="icon-edit"></i>
+                                    Task Running
+                                    
+                                </div>
+                                <div class="external-event label-important" data-class="label-important">
+                                     <i class="icon-exclamation-sign"></i> 
+                                    Task overdue
+                                    
+                                </div>
+                                <div class="external-event label-yellow" data-class="label-yellow">
+                                    <i class="icon-external-link"></i>
+                                    Task complete but late
+                                    
+                                </div>
+                                <div class="external-event label-pink" data-class="label-pink">
+                                    <i class="icon-check"></i>
+                                    Task complete
+                                    
+                                </div>
+                                
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
             </div>
 
             <!--PAGE CONTENT ENDS-->
@@ -173,6 +214,7 @@
 
 $js_events = "";
 $js_evdates = "";
+
 foreach($project_tasks as $tasks){
     
     $js_evdates .= " var task_".$tasks->taskid."_start_date = new Date('".$tasks->dateStart."');\n\n";
@@ -186,19 +228,40 @@ foreach($project_tasks as $tasks){
     $js_evdates .= " var task_".$tasks->taskid."_em = task_".$tasks->taskid."_end_date.getMonth();\n";
     $js_evdates .= " var task_".$tasks->taskid."_ey = task_".$tasks->taskid."_end_date.getFullYear();\n";
     
-    $js_events .=  ",{\n";
-    $js_events .=  "\ttitle: '".$tasks->taskName."',\n";
-    $js_events .=  "\tstart: new Date(task_".$tasks->taskid."_sy, task_".$tasks->taskid."_sm, task_".$tasks->taskid."_sd),\n";
-    $js_events .=  "\tend: new Date(task_".$tasks->taskid."_ey, task_".$tasks->taskid."_em, task_".$tasks->taskid."_ed),\n";
-    $js_events .=  "\tclassName: 'label-info'\n";
-    $js_events .=  "}\n";
-                }
-                ?>
-<style>
-       .vacation {
-              background-color:red;
+    $js_events .=  ",\n\t\t\t\t{\n";
+    $js_events .=  "\t\t\t\t\ttitle: '".$tasks->taskName."',\n";
+    $js_events .=  "\t\t\t\t\tstart: new Date(task_".$tasks->taskid."_sy, task_".$tasks->taskid."_sm, task_".$tasks->taskid."_sd),\n";
+    $js_events .=  "\t\t\t\t\tend: new Date(task_".$tasks->taskid."_ey, task_".$tasks->taskid."_em, task_".$tasks->taskid."_ed),\n";
+    $js_events .=  "\t\t\t\t\tmemberid: ".$tasks->contactid.",\n";
+    $js_events .=  "\t\t\t\t\tid: ".$tasks->taskid.",\n";
+    
+    if($tasks->dueDateFormated > 0){
+        $js_events .=  "\t\t\t\t\tclassName: 'label-info'\n";
+        
+        
+    }
+    else{
+        
+        if($tasks->dateComplete != ""){
+            if((strtotime($tasks->dueDate) - strtotime($tasks->dateComplete)) < 0){
+                $js_events .=  "\t\t\t\t\tclassName: 'label-yellow'\n";
+            } 
+            else {
+                $js_events .=  "\t\t\t\t\tclassName: 'label-pink'\n";
+            }
+            
         }
-</style>
+        else{
+            $js_events .=  "\t\t\t\t\tclassName: 'label-important'\n";
+        }
+        
+        
+        
+    }
+        
+    $js_events .=  "\t\t\t\t}";
+}
+?>
 <script>
     $(function() {
         
@@ -263,10 +326,10 @@ foreach($project_tasks as $tasks){
                     start: new Date(sy, sm, sd),
                     end: new Date(ey, em, ed),
                     className: 'label-success',
-                    description: "this is event"
+                    id: '<?php echo $projects_detail[0]->projectid?>'
                     
-                }
-                <?php echo $js_events?>
+                }<?php echo $js_events?>
+                
                 
                 
                 ],
@@ -419,19 +482,32 @@ foreach($project_tasks as $tasks){
             
             eventClick: function(calEvent, jsEvent, view) {
 
+                <?php
+                $frmidit = "";
+                foreach ($projectMembers as $members){ 
                 
-                
-                var form = $("<form class='form-inline'><label>Change event name &nbsp;</label></form>");
-                form.append("<input autocomplete=off type=text value='" + calEvent.title + "' /> ");
-                form.append("<button type='submit' class='btn btn-small btn-success'><i class='icon-ok'></i> Save</button>");
+                $frmidit .= "<option value='".$members->contactid."' >".$members->firstName."</option>";
 
+                }
+                ?>
+                
+                var form = $("<form id='frm_task_edit' class='form-inline'><label>Modity Task &nbsp;</label></form>");
+                form.append("<input type=text name='task' value='" + calEvent.title + "' /> ");
+                form.append("<select name='member' id='member'><?php echo $frmidit?></select> ");
+                
+                
                 var div = bootbox.dialog(form,
                         [
+                            {
+                                "label": "<i class='icon-ok'></i> Save",
+                                "class": "btn-small"
+                            },
                             {
                                 "label": "<i class='icon-trash'></i> Hold",
                                 "class": "btn-small btn-danger",
                                 "callback": function() {
                                     calendar.fullCalendar('removeEvents', function(ev) {
+                                       
                                         return (ev._id == calEvent._id);
                                     })
                                 }
@@ -449,8 +525,9 @@ foreach($project_tasks as $tasks){
                                 div.modal("hide");
                             }
                         }
+                        
                 );
-
+                
                 form.on('submit', function() {
                     calEvent.title = form.find("input[type=text]").val();
                     calendar.fullCalendar('updateEvent', calEvent);
@@ -472,7 +549,7 @@ foreach($project_tasks as $tasks){
         
         
         
-        $("div.fc-day-number:contains('8')").parent().find(".fc-day-content").addClass("vacation");
+        
 
 
     });
