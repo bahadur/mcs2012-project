@@ -203,11 +203,6 @@
 </div>
 
 
-
-
-</div>
-</div>
-
 <?php 
 
 
@@ -277,24 +272,24 @@ foreach($project_tasks as $tasks){
 
         
 
-        $('#external-events div.external-event').each(function() {
-
-		
-		var eventObject = {
-			title: $.trim($(this).text()) // use the element's text as the event title
-		};
-
-		// store the Event Object in the DOM element so we can get to it later
-		$(this).data('eventObject', eventObject);
-
-		// make the event draggable using jQuery UI
-		$(this).draggable({
-			zIndex: 999,
-			revert: true,      // will cause the event to go back to its
-			revertDuration: 0  //  original position after the drag
-		});
-		
-	});
+//        $('#external-events div.external-event').each(function() {
+//
+//		
+//		var eventObject = {
+//			title: $.trim($(this).text()) // use the element's text as the event title
+//		};
+//
+//		// store the Event Object in the DOM element so we can get to it later
+//		$(this).data('eventObject', eventObject);
+//
+//		// make the event draggable using jQuery UI
+//		$(this).draggable({
+//			zIndex: 999,
+//			revert: true,      // will cause the event to go back to its
+//			revertDuration: 0  //  original position after the drag
+//		});
+//		
+//	});
 
         var start_date = new Date('<?php echo $projects_detail[0]->fstartdate ?> <?php echo $projects_detail[0]->fstarttime ?>');
         var sd = start_date.getDate();
@@ -481,26 +476,42 @@ foreach($project_tasks as $tasks){
             
             
             eventClick: function(calEvent, jsEvent, view) {
-
+                
                 <?php
                 $frmidit = "";
                 foreach ($projectMembers as $members){ 
                 
-                $frmidit .= "<option value='".$members->contactid."' >".$members->firstName."</option>";
+                $frmidit .= "<option value='".$members->contactid."'  >".$members->firstName."</option>";
 
                 }
                 ?>
+                
                 
                 var form = $("<form id='frm_task_edit' class='form-inline'><label>Modity Task &nbsp;</label></form>");
                 form.append("<input type=text name='task' value='" + calEvent.title + "' /> ");
                 form.append("<select name='member' id='member'><?php echo $frmidit?></select> ");
                 
                 
+               if(calEvent.className == "label-success"){
                 var div = bootbox.dialog(form,
                         [
                             {
                                 "label": "<i class='icon-ok'></i> Save",
-                                "class": "btn-small"
+                                "class": "btn-small btn-disabled"
+                                
+                                
+                            }
+                         ]
+                 );
+                } else {
+                
+                var div = bootbox.dialog(form,
+                        [
+                            {
+                                "label": "<i class='icon-ok'></i> Save",
+                                "class": "btn-small btn-disabled"
+                                
+                                
                             },
                             {
                                 "label": "<i class='icon-trash'></i> Hold",
@@ -527,6 +538,7 @@ foreach($project_tasks as $tasks){
                         }
                         
                 );
+            }
                 
                 form.on('submit', function() {
                     calEvent.title = form.find("input[type=text]").val();
@@ -535,7 +547,7 @@ foreach($project_tasks as $tasks){
                     return false;
                 });
 
-
+                
                 //console.log(calEvent.id);
                 //console.log(jsEvent);
                 //console.log(view);
