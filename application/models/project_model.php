@@ -272,6 +272,7 @@ class Project_model extends CI_Model {
         $this->db->select("*, count(project_memebers.taskid) tasks_count");
         $this->db->from("project_memebers");
         $this->db->where("md5(project_memebers.projectid)",$projectid);
+        
         $this->db->join("contact", "project_memebers.contactid = contact.contactid");
         $this->db->group_by("project_memebers.projectid, project_memebers.contactid");
         return $this->db->get()->result();

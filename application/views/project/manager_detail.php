@@ -109,7 +109,7 @@
                                 ?>
                                 <div class="external-event label-info" data-class="label-info">
                                     <i class="icon-move"></i>
-                                    <?php echo $members->firstName?> <?php echo $members->lastName?> [Tasks: <?php echo $members->tasks_count?> ]
+                                    <?php echo $members->firstName?> <?php echo $members->lastName?> [Tasks: <?php echo ($members->tasks_count == 1 && $members->taskid == 0)?"0":$members->tasks_count?> ]
                                 </div>
                                 <?php }?>
 

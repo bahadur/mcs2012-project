@@ -126,8 +126,8 @@ class Project extends CI_Controller {
             'categoryid'    => $this->input->post('categoryid'),
             'managerid'     => $this->input->post('managerid'),
             'clientaccess'  => $this->input->post('clientaccess'),
-            'dateStart'     => $this->input->post('dateStart') . ' ' . $this->input->post('dateStart_time'),
-            'dueDate'       => $this->input->post('dueDate') . ' ' . $this->input->post('dueDate_time'),
+            'dateStart'     => date("Y-m-d H:i:s",strtotime($this->input->post('dateStart') . ' ' . $this->input->post('dateStart_time'))),
+            'dueDate'       => date("Y-m-d H:i:s",strtotime($this->input->post('dueDate') . ' ' . $this->input->post('dueDate_time'))),
             'priority'      => $this->input->post('priority'),
             'description'   => $this->input->post('description')
         );
@@ -135,17 +135,39 @@ class Project extends CI_Controller {
         $this->db->where('projectid', $this->input->post('projectid'));
         if($this->db->update('project', $data)){
             
-            $this->db->delete('project_memebers', array('projectid' => $this->input->post('projectid')));
+            //$this->db->delete('project_memebers', array('projectid' => $this->input->post('projectid')));
             
             $membersid = explode(',',$this->input->post('teamMembers_hidden'));
             
             
-            foreach($membersid as $k => $value){
-                $mem_data = array('projectid' => $this->input->post('projectid'), "contactid" => $value);
-                $this->db->insert("project_memebers",$mem_data);
+            $this->db->select("contactid");
+            $this->db->from("project_memebers");
+            $this->db->where("projectid", $this->input->post('projectid'));
+            $this->db->group_by("projectid,contactid");
+            
+            foreach($this->db->get()->result() as $r){
+                $dbmemberid[] = $r->contactid;
+             }
+             print_r($membersid);
+             print_r($dbmemberid);
+            if(count($membersid) < count($dbmemberid)){
+                print_r(array_diff($membersid, $dbmemberid));
             }
             
-             echo 1;
+//            foreach($membersid as $k => $value){
+//                $this->db->select("*");
+//                $this->db->from("project_memebers");
+//                $this->db->where("projectid", $this->input->post('projectid'));
+//                $this->db->where("contactid",$value);
+//                $mem_rs = $this->db->get()->result();
+//                if(count($mem_rs) < 1 ){
+//                    $mem_data = array('projectid' => $this->input->post('projectid'), "contactid" => $value);
+//                    $this->db->insert("project_memebers",$mem_data);
+//                
+//                }
+//            }
+            
+             echo json_encode(array("response"=>1,"msg"=>"Update Successfully."));
             
         } else {
             echo 0;

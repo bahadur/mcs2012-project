@@ -21,7 +21,7 @@ class Home extends CI_Controller
     {   
         //echo $this->uri->segment(2); die;
         $data["title"] = "SAB | Dashboard";
-
+        $data["totalManagers"] = $this->accounts_model->getManagersCount();
         $data['projects_detail'] = $this->project_model->getProjectsDetail();
         switch ($this->session->userdata('contact_type'))
         {   

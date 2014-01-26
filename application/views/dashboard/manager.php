@@ -56,24 +56,31 @@
                 <div class="span12">
                     <h3 class="header smaller lighter blue">Projects in Action</h3>
 
-                    <table id="project_details" class="table table-striped table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th>Project Name</th>
-                                <th>Start Date</th>
-                                <th>Due Date</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                        <tfoot>
-                            <tr>
-
-                                <th>Project Name</th>
-                                <th>Start Date</th>
-                                <th>Due Date</th>
-                            </tr>
-                        </tfoot>
-                    </table>
+                    <table id="project_details" class="table table-striped table-bordered table-hover datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Project Manager</th>
+                                        <th class="hidden-phone">Members</th>
+                                        <th class="hidden-phone">Priority</th>
+                                        <th class="hidden-phone">Status</th>
+                                        <th>Start</th>
+                                        <th>Due</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Project Manager</th>
+                                        <th class="hidden-phone">Members</th>
+                                        <th class="hidden-phone">Priority</th>
+                                        <th class="hidden-phone">Status</th>
+                                        <th>Start</th>
+                                        <th>Due</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
 
                 </div>
             </div>
@@ -143,49 +150,33 @@
 <script>
     $(function() {
 
-        $("#project_btn").on("click", function() {
-
-            $("#project_details thead").html('<tr><th>Project Name</th><th>Start Date</th><th>Due Date</th></tr>');
-            $("#project_details tfoot").html('<tr><th>Project Name</th><th>Start Date</th><th>Due Date</th></tr>');
-            $("#project_details").dataTable({
-                "bProcessing": true,
-                "bDestroy": true,
-                "sAjaxSource": "<?php echo base_url() ?>account/projects",
-            });
-        });
+        
 
 
-        $("#project_btn").on("click", function() {
-
-            $("#project_details thead").html('<tr><th>Project Name</th><th>Start Date</th><th>Due Date</th></tr>');
-            $("#project_details tfoot").html('<tr><th>Project Name</th><th>Start Date</th><th>Due Date</th></tr>');
-            $("#project_details").dataTable({
-                "bProcessing": true,
-                "bDestroy": true,
-                "sAjaxSource": "<?php echo base_url() ?>account/projects",
-            });
-        });
+        
 
 
 
-        $("a.prj_id").click(function() {
-            alert("clicked");
-        });
-
-        $("#member_btn").on("click", function() {
-
-            $("#project_details").dataTable({
-                "bProcessing": true,
-                "bRetrieve": true,
-                "bDestroy": true,
-                "sAjaxSource": "<?php echo base_url() ?>account/members",
-            });
-        });
+       
+       
 
         $("#project_details").dataTable({
+            "bDestroy": true,
             "bProcessing": true,
-            "sAjaxSource": "<?php echo base_url() ?>account/projects",
+            "aoColumnDefs": [
+                {  "sClass": "hidden-phone", "aTargets": [ 2 ] },
+                {  "sClass": "hidden-phone", "aTargets": [ 3 ] },
+                {  "sClass": "hidden-phone", "aTargets": [ 4 ] },
+                { "sWidth": "25%", "aTargets": [ 0 ] },
+                { "sWidth": "8%", "aTargets": [ 2 ] }
+               
+        
+       
+                ],
+            "sAjaxSource": "<?php echo base_url() ?>project/get/"
+
         });
+
 
         $("#task_details").dataTable({
             "bProcessing": true,

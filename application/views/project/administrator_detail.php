@@ -9,8 +9,9 @@
             </h1>
         </div>
         <div class="row-fluid">
-            <div class="span12" id="submit_result" style="display: none;"> 
-                <div class="alert alert-block alert-success">
+            
+                <div class="alert alert-block alert-success"  style="display: none;">
+                    <a class="close" data-dismiss="alert"><i class="icon-remove"></i></a>
                     <p >
                         <strong>
                             <i class="icon-ok"></i>
@@ -18,11 +19,8 @@
                         </strong>
                         Project update successfully.
                     </p>
-                    <p>
-                        <button class="btn btn-small">Go to main page</button>
-                    </p>
                 </div>
-            </div>
+            
             <form class="form-horizontal" id="validation-form">
                 <div class="span6">
                     <div class="widget-box">
@@ -255,20 +253,24 @@
                     if (result) {
                         var items = [];
                         $("#teamMembers option:selected").map(function(){ items.push($(this).val()); }).get().join(", ");
-                        var result = items.join(', ');
-                        $('#teamMembers_hidden').val(result);
+                        var rs = items.join(', ');
+                        $('#teamMembers_hidden').val(rs);
                         $.ajax({
                             dataType: 'html',
                             type: 'post',
                             url: '<?php echo base_url('project/update') ?>',
                             data: $(form).serialize(),
                             success: function(responseData) {
-                                if (responseData == 1) {
-                                    $("#validation-form").hide();
-                                    $("#submit_result").attr("style", "display:block");
-                                    setTimeout(function() {
-                                       location.href = '<?php echo base_url()?>project/summary';
-                                     }, 1000);
+                                if (responseData.repsonse == 1) {
+                                    //$("#validation-form").hide();
+                                    
+                                    $(".alert").removeClass("alert-success");
+                                    $(".alert").addClass("alert-warning");
+                                        $(".alert").fadeIn(800);
+                                    
+//                                    setTimeout(function() {
+//                                       location.href = '<?php echo base_url()?>project/summary';
+//                                     }, 1000);
                                          
                                          
                                     
@@ -300,7 +302,19 @@
             showSeconds: true,
             showMeridian: false
         });
-        $("#teamMembers").chosen(); 
+        $("#teamMembers").chosen({
+        
+            width: "95%",
+            
+            
+            
+            
+            
+        }).on('change', function(evt, params) {
+                console.log($(event.target));
+                
+            
+          }); 
         
     });
 </script>

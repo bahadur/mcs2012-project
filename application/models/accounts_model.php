@@ -361,6 +361,20 @@ class Accounts_model extends CI_Model {
             
              return array("aaData" => $dataArray);
     }
+    
+    public function getManagersCount(){
+            $this->db->select("count(contactid) managers",false);
+            $this->db->from("contact");
+            $this->db->where("contactType",2);
+            $rs = $this->db->get()->result();
+            
+            return $rs[0]->managers;
+            
+        }
+        
+        public  function getMembersCount($managerid){
+            
+        }
 
 }
 

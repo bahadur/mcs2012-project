@@ -9,12 +9,12 @@
                 <div class="row-fluid">
                     <div class="inforbox-container">
                         <a href="javascript:void(0)" class="btn-projects btn btn-app btn-success radius-4" id="allProjects">
-                            <i class="icon-eye-open bigger-220"></i>
+                            <i class="icon-briefcase bigger-220"></i>
                             Projects
                             <span class="badge badge-yellow"><?php echo $projects_detail["total"] ?></span>
                         </a>
                         <a href="javascript:void(0)" class="btn-projects btn btn-app btn-danger radius-4"  id="overDues"> 
-                            <i class="icon-eye-open bigger-220"></i>
+                            <i class="icon-briefcase bigger-220"></i>
                             Over Dues
                             <span class="badge badge-black"><?php echo $projects_detail["overdues"] ?></span>
                         </a>

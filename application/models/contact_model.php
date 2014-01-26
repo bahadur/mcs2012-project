@@ -70,6 +70,8 @@ class Contact_model extends CI_Model {
 		return $data_menu;
 		//$this->load->view("menu")
 	}
+        
+        
 
 }
 
