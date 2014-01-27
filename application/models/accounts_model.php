@@ -8,7 +8,7 @@ class Accounts_model extends CI_Model {
 
     public function getLogin($emailid, $pass) {
 
-        
+
         $this->db->select("*");
         $this->db->from("contact");
         $this->db->where("email", $emailid);
@@ -110,7 +110,7 @@ class Accounts_model extends CI_Model {
         $this->db->join("contacttype", "contact.contactType = contacttype.contactTypeid");
 
         $rs = $this->db->get()->result();
-        
+
         $dataArray = array();
         foreach ($rs as $rows) {
 
@@ -123,7 +123,7 @@ class Accounts_model extends CI_Model {
 
 
 
-            $dataArray[] = array($name,  $designation, $companyName, $email, $dateCreate, $activated);
+            $dataArray[] = array($name, $designation, $companyName, $email, $dateCreate, $activated);
         }
 
         return array("aaData" => $dataArray);
@@ -295,18 +295,18 @@ class Accounts_model extends CI_Model {
         $dataArray = array();
         foreach ($rs as $rows) {
 
-            if($rows->dueDateFormated < 0 && $rows->category != "Completed"){
+            if ($rows->dueDateFormated < 0 && $rows->category != "Completed") {
                 $overdue = "label-important";
                 $dticon = "<i class='icon-bolt'></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
             } else {
-                $overdue =  "label-info";
-                $dticon = ($rows->category == "Completed")?"<i class='icon-ok'></i>&nbsp;&nbsp;":"<i class='icon-share-alt'></i>&nbsp;&nbsp;";
+                $overdue = "label-info";
+                $dticon = ($rows->category == "Completed") ? "<i class='icon-ok'></i>&nbsp;&nbsp;" : "<i class='icon-share-alt'></i>&nbsp;&nbsp;";
             }
-            $name = "<a href='javascript:void(0)' class='prj_id' id='project_".$rows->projectid."' >" . $rows->projectName . "</a>";
-            
-            $startDate = '<span class="label  label-large label-info "><i class="fa fa-location-arrow"></i>&nbsp;&nbsp;'.$rows->dateStart.'</span>';
-            $dueDate = '<span class="label  label-large  '.$overdue.'" >'.$dticon.$rows->dueDate.'</span>';
-            
+            $name = "<a href='javascript:void(0)' class='prj_id' id='project_" . $rows->projectid . "' >" . $rows->projectName . "</a>";
+
+            $startDate = '<span class="label  label-large label-info "><i class="fa fa-location-arrow"></i>&nbsp;&nbsp;' . $rows->dateStart . '</span>';
+            $dueDate = '<span class="label  label-large  ' . $overdue . '" >' . $dticon . $rows->dueDate . '</span>';
+
 
 
 
@@ -318,63 +318,66 @@ class Accounts_model extends CI_Model {
         return array("aaData" => $dataArray);
     }
 
-    
-    
-    
-    public function getMembers($contactid){
+    public function getMembers($contactid) {
 //        $rs = $this->db->query("select * from contact where contactid in (
 //        select contactid from project_memebers where projectid in (
 //        select projectid from project where managerid = ".$contacid."))");
 //        $result = $rs->result();
-        
-       $this->db->select("*");
-       $this->db->from("project");
-       $this->db->where("managerid", $contactid);
-       $prjid = $this->db->get()->result();
-        
-        foreach($prjid as $prjid_val){
+
+        $this->db->select("*");
+        $this->db->from("project");
+        $this->db->where("managerid", $contactid);
+        $prjid = $this->db->get()->result();
+
+        foreach ($prjid as $prjid_val) {
             $this->db->select("project_memebers.rowid,
                                 project_memebers.projectid,
                                 project_memebers.contactid,
                                 count(project_memebers.taskid) tasks,
                                 contact.firstName,
                                 contact.email,
-                                project.name",false);
+                                project.name", false);
             $this->db->from("project_memebers");
             $this->db->where("project_memebers.projectid", $prjid_val->projectid);
-            $this->db->join("project","project_memebers.projectid = project.projectid");
-            $this->db->join("contact","project_memebers.contactid = contact.contactid");
+            $this->db->join("project", "project_memebers.projectid = project.projectid");
+            $this->db->join("contact", "project_memebers.contactid = contact.contactid");
             $this->db->group_by("project_memebers.projectid, project_memebers.contactid");
-            
-                    
 
-            
+
+
+
             $prj_membersid = $this->db->get()->result();
-           
-            foreach($prj_membersid as $prj_membersid_val){
-                $dataArray[] = array($prj_membersid_val->firstName, $prj_membersid_val->email, $prj_membersid_val->tasks);    
-            //$data[$prjid_val->projectid][$prj_membersid_val->contactid][] = $prj_membersid_val->taskid;
+
+            foreach ($prj_membersid as $prj_membersid_val) {
+                $dataArray[] = array($prj_membersid_val->firstName, $prj_membersid_val->email, $prj_membersid_val->tasks);
+                //$data[$prjid_val->projectid][$prj_membersid_val->contactid][] = $prj_membersid_val->taskid;
             }
-            
-            
         }
-            
-             return array("aaData" => $dataArray);
+
+        return array("aaData" => $dataArray);
+    }
+
+    public function getManagersCount() {
+        $this->db->select("count(contactid) managers", false);
+        $this->db->from("contact");
+        $this->db->where("contactType", 2);
+        $rs = $this->db->get()->result();
+
+        return $rs[0]->managers;
+    }
+
+    public function getMembersCount($managerid) {
+        
     }
     
-    public function getManagersCount(){
-            $this->db->select("count(contactid) managers",false);
-            $this->db->from("contact");
-            $this->db->where("contactType",2);
-            $rs = $this->db->get()->result();
-            
-            return $rs[0]->managers;
-            
-        }
+    public function isManager($contactid){
         
-        public  function getMembersCount($managerid){
-            
-        }
+        
+        if($this->session->userdata('contact_type') == 2)
+            return true;
+        else 
+            return false;
+    }
 
 }
 

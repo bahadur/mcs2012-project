@@ -6,7 +6,7 @@ if (!defined('BASEPATH')) {
 
 class Task_model extends CI_Model {
 
-   public function getTasks($contactid, $projectid="",$status="") {
+   public function getTasks($contactid, $isManager , $projectid="",$status="") {
 
         $this->db->select("task.taskid, project.`name` as 'projectName',
                           task.taskName,  task.description, 
@@ -16,15 +16,21 @@ class Task_model extends CI_Model {
                           date_format(task.startDate, '%M %e, %Y') dateStart,
                           date_format(task.dueDate, '%M %e, %Y') dueDate, 
                           date_format(task.dateComplete, '%M %e, %Y') dateComplete, 
-                          TIMEDIFF(task.dueDate, NOW()) dueDateFormated", false);
+                          TIMEDIFF(task.dueDate, NOW()) dueDateFormated,
+                          task.status", false);
         $this->db->from("project");
         $this->db->join("project_memebers", "project.projectid = project_memebers.projectid");
         $this->db->join("contact", "project_memebers.contactid = contact.contactid");
         $this->db->join("task", "project_memebers.taskid = task.taskid");
         $this->db->join("priority","priority.priorityid = project.priority");
-        $this->db->join("project_category","project_category.projectCategoryid = project.categoryid");
+        $this->db->join("project_category","project_category.projectCategoryid = task.status");
        
-        $this->db->where("project.managerid", $contactid);
+        if($isManager){
+            $this->db->where("project.managerid", $contactid);
+        }
+        else {
+            $this->db->where("project_memebers.contactid", $contactid);
+        }
         
         if($projectid != "")
             $this->db->where("project.projectid", $projectid);
@@ -37,6 +43,27 @@ class Task_model extends CI_Model {
         return $rs; 
     }
     
+    public function getTaskDetail($taskid){
+        $this->db->select("taskid,
+                            taskName,
+                            description,
+                            project_category.category,
+                            date_format(task.startDate, '%M %e, %Y') dateStart,
+                            date_format(task.dueDate, '%M %e, %Y') dueDate, 
+                            date_format(task.dateComplete, '%M %e, %Y') dateComplete, 
+                            TIMEDIFF(task.dueDate, NOW()) dueDateFormated,
+                            date_format(task.dateComplete, '%M %e, %Y') dateComplete,
+                            priority.priority,
+                            status
+                            ",false);
+        $this->db->from("task");
+        $this->db->join("project_category","project_category.projectCategoryid = task.status");
+        $this->db->join("priority","priority.priorityid = task.priority");
+        $this->db->where("md5(taskid)",$taskid);
+        
+        $rs = $this->db->get()->result();
+        return $rs;
+    }
     
     public function update(){
         
@@ -73,6 +100,9 @@ class Task_model extends CI_Model {
             $this->db->where("projectid",$this->input->post("projectid"));
             $this->db->where("contactid",$this->input->post("member"));
             $this->db->update("project_memebers",array("taskid"=>$taskid));
+            
+            
+            
         } else{
             
             $data = array(
@@ -87,6 +117,13 @@ class Task_model extends CI_Model {
         
         return 1;
         
+    }
+    
+    
+    public function complete($taskid){
+        $this->db->where("taskid", $taskid);
+        $this->db->update("task",array("dateComplete" => date("Y-m-d H:i:s"), "status" => 3));
+        return 1;
     }
 }
 
