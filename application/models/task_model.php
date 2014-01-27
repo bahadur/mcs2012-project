@@ -39,6 +39,9 @@ class Task_model extends CI_Model {
     
     
     public function update(){
+        
+        
+        
         $data = array(
                 'taskName' => $this->input->post("task"),
                 'order' => '1' ,
@@ -56,12 +59,31 @@ class Task_model extends CI_Model {
         $this->db->insert('task', $data); 
         $taskid = $this->db->insert_id();
         
-        $data = array(
-            'projectid' => $this->input->post("projectid"),
-            'contactid' =>  $this->input->post("member"),
-            'taskid'  =>  $taskid
-        );
-         $this->db->insert('project_memebers', $data); 
+        
+        $this->db->select("projectid, contactid,taskid", false);
+        $this->db->from("project_memebers");
+        $this->db->where("projectid",$this->input->post("projectid"));
+        $this->db->where("contactid",$this->input->post("member"));
+        $this->db->where("taskid",0);
+        
+        $rs = $this->db->get()->result();
+        echo $this->db->last_query();
+        if(count($rs) > 0){
+            
+            $this->db->where("projectid",$this->input->post("projectid"));
+            $this->db->where("contactid",$this->input->post("member"));
+            $this->db->update("project_memebers",array("taskid"=>$taskid));
+        } else{
+            
+            $data = array(
+                'projectid' => $this->input->post("projectid"),
+                'contactid' =>  $this->input->post("member"),
+                'taskid'  =>  $taskid );
+               
+                $this->db->insert('project_memebers', $data);
+            
+            
+        }
         
         return 1;
         

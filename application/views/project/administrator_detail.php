@@ -12,12 +12,12 @@
             
                 <div class="alert alert-block alert-success"  style="display: none;">
                     <a class="close" data-dismiss="alert"><i class="icon-remove"></i></a>
-                    <p >
+                    <p>
                         <strong>
                             <i class="icon-ok"></i>
                             Done!
                         </strong>
-                        Project update successfully.
+                        <div id="msg" >&nbsp;</div>
                     </p>
                 </div>
             
@@ -162,7 +162,9 @@
                                         <div class="btn-group">
                                             <div class="btn-group">
                                                 <?php echo form_dropdown('teamMemberid', $teamMembers, $teamMemberid, "class='chzn-select' id='teamMembers' data-placeholder='Choose a Team Members...'") ?>
-                                                <input type="hidden" name="teamMembers_hidden" id="teamMembers_hidden" />
+                                                <input type="hidden" name="selectMembers_hidden" id="selectMembers_hidden" />
+                                                <input type="hidden" name="deselectMembers_hidden" id="deselectMembers_hidden" />
+                                                
                                             </div>
                                         </div><?php } else { echo "All Team memebers are buzy"; } ?>
                                     </div>
@@ -196,6 +198,8 @@
 </div>
 <script>
     $(function() {
+         var sel = new Array();
+                var desel =  new Array();
         $('.date-picker').datepicker().next().on(ace.click_event, function() {
             $(this).prev().focus();
         });
@@ -251,33 +255,32 @@
 
                 bootbox.confirm("<h3>Values changes will be update permenantly. click ok to confirm.</h3>", function(result) {
                     if (result) {
-                        var items = [];
-                        $("#teamMembers option:selected").map(function(){ items.push($(this).val()); }).get().join(", ");
-                        var rs = items.join(', ');
-                        $('#teamMembers_hidden').val(rs);
+//                        var items = [];
+//                        $("#teamMembers option:selected").map(function(){ items.push($(this).val()); }).get().join(", ");
+//                        var rs = items.join(', ');
+                        //$('#selectMembers_hidden').val(rs);
                         $.ajax({
                             dataType: 'html',
                             type: 'post',
                             url: '<?php echo base_url('project/update') ?>',
                             data: $(form).serialize(),
                             success: function(responseData) {
-                                if (responseData.repsonse == 1) {
-                                    //$("#validation-form").hide();
+                                
+                                $("#validation-form").hide();
+                                $(".alert div#msg").text("Data successfully update.");
+                               
+                                
+                                    if (responseData == 2) {
+                                        $(".alert").removeClass("alert-success");
+                                        $(".alert").addClass("alert-warning");
+                                        $(".alert div#msg").text("Data successfully update. But member(s) that you select has/have task in running stage");
                                     
-                                    $(".alert").removeClass("alert-success");
-                                    $(".alert").addClass("alert-warning");
-                                        $(".alert").fadeIn(800);
-                                    
-//                                    setTimeout(function() {
-//                                       location.href = '<?php echo base_url()?>project/summary';
-//                                     }, 1000);
-                                         
-                                         
-                                    
-                                }
-                                else {
-                                    bootbox.alert("Could not update record");
-                                }
+                                    } 
+                                    $(".alert").fadeIn(800);
+//                                else {
+//                                    bootbox.alert("Could not update record");
+//                                }
+                                
                             },
                             error: function(responseData) {
                                 bootbox.alert('Ajax request not recieved! ');
@@ -311,7 +314,41 @@
             
             
         }).on('change', function(evt, params) {
-                console.log($(event.target));
+//               console.log("Selected:    ");
+//                console.log(params.selected);
+//                console.log("  Deselected    ");
+//                console.log(params.deselected);
+
+                 if(params.selected!=null)
+                    {
+                        if($.inArray(params.selected,sel) < 0){
+                            if($.inArray(params.selected,desel) >= 0){
+                                
+                                desel.splice(desel.indexOf(params.selected), 1);
+                                $('#deselectMembers_hidden').val(desel.join(', '));
+                            }
+                            sel.push(params.selected);
+                            $('#selectMembers_hidden').val(sel.join(', '));
+                            
+                        }
+                    }
+                if(params.deselected!=null)
+                    {
+                        
+                        if($.inArray(params.deselected,desel) < 0){
+                            if($.inArray(params.deselected,sel) >= 0){
+                                sel.splice(sel.indexOf(params.deselected), 1);
+                                 $('#selectMembers_hidden').val(sel.join(', '));
+                                
+                            }
+                            desel.push(params.deselected);
+                            $('#deselectMembers_hidden').val(desel.join(', '));
+                        }
+                    }
+                
+                
+    
+                
                 
             
           }); 

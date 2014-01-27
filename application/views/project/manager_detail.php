@@ -311,8 +311,8 @@ foreach($project_tasks as $tasks){
             },
             header: {
                 left: 'prev,next today',
-                center: 'title',
-                right: 'month,agendaWeek,agendaDay'
+                center: 'title'
+                
             },
             events: [
                 

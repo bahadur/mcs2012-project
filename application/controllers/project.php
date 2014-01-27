@@ -121,6 +121,9 @@ class Project extends CI_Controller {
     
     // Ajax methods 
     public function update(){
+        header("content-type: application/json");
+        $respnse = "1";
+        $msg = "";
         $data = array(
             'name'          => $this->input->post('name'),
             'categoryid'    => $this->input->post('categoryid'),
@@ -134,40 +137,60 @@ class Project extends CI_Controller {
         
         $this->db->where('projectid', $this->input->post('projectid'));
         if($this->db->update('project', $data)){
-            
-            //$this->db->delete('project_memebers', array('projectid' => $this->input->post('projectid')));
-            
-            $membersid = explode(',',$this->input->post('teamMembers_hidden'));
+           $msg .= "Record update successfully. "; 
             
             
-            $this->db->select("contactid");
-            $this->db->from("project_memebers");
-            $this->db->where("projectid", $this->input->post('projectid'));
-            $this->db->group_by("projectid,contactid");
+            $selectmembersid = explode(',',$this->input->post('selectMembers_hidden'));
             
-            foreach($this->db->get()->result() as $r){
-                $dbmemberid[] = $r->contactid;
-             }
-             print_r($membersid);
-             print_r($dbmemberid);
-            if(count($membersid) < count($dbmemberid)){
-                print_r(array_diff($membersid, $dbmemberid));
+            $arrayinsert = array();
+            if((count($selectmembersid) > 0) && ($selectmembersid[0] != "")){
+                foreach ($selectmembersid as $idinsert){
+
+                    $this->db->select("*");
+                    $this->db->from("project_memebers");
+                    $this->db->where("projectid",$this->input->post("projectid"));
+                    $this->db->where("contactid",$idinsert);
+                    $rs = $this->db->get()->result();
+
+                    if(count($rs) == 0){
+                        //$arrayinsert[] = array("projectid"=>$this->input->post('projectid'),"contactid"=>$idinsert);
+                        $this->db->insert("project_memebers", array("projectid" => $this->input->post('projectid'),"contactid" => $idinsert));
+                    }
+
+                }
             }
             
-//            foreach($membersid as $k => $value){
-//                $this->db->select("*");
-//                $this->db->from("project_memebers");
-//                $this->db->where("projectid", $this->input->post('projectid'));
-//                $this->db->where("contactid",$value);
-//                $mem_rs = $this->db->get()->result();
-//                if(count($mem_rs) < 1 ){
-//                    $mem_data = array('projectid' => $this->input->post('projectid'), "contactid" => $value);
-//                    $this->db->insert("project_memebers",$mem_data);
-//                
-//                }
-//            }
+            $deselectmembersid = explode(',',$this->input->post('deselectMembers_hidden'));
+            $memmsg = "";
+            foreach ($deselectmembersid as $idsdel){
+                $this->db->select("project_memebers.contactid, count(project_memebers.contactid) tasks, contact.firstName, project_memebers.taskid",false);
+                $this->db->from("project_memebers");
+                $this->db->join("contact","contact.contactid=project_memebers.contactid");
+                $this->db->where("project_memebers.projectid", $this->input->post('projectid'));
+                $this->db->where("project_memebers.contactid", $idsdel);
+                $this->db->group_by("project_memebers.projectid,project_memebers.contactid");
             
-             echo json_encode(array("response"=>1,"msg"=>"Update Successfully."));
+                $rs = $this->db->get()->result(); 
+                
+                if(count($rs) > 0){
+                    if($rs[0]->tasks == 1 && $rs[0]->taskid == 0){ 
+                        $this->db->delete('project_memebers', array('projectid' => $this->input->post('projectid'),'contactid'=> $idsdel));
+                    } else {
+                        $memmsg .= $rs[0]->firstName.", ";
+                    }
+                    
+                }   
+            }
+            
+            if($memmsg != "")
+                       //$msg .= "Following memeber(s) aleady assinged task(s) which is on running state. ".$memmsg;
+                       $respnse = 2;
+            
+            
+            
+          
+             //echo json_encode(array("res"=>"1","msg"=>"Update Successfully.".$msg));
+            echo $respnse;
             
         } else {
             echo 0;
